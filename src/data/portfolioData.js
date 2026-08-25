@@ -16,7 +16,7 @@ export const personalData = {
   location: "Bangkok, Thailand (พร้อมทำงาน Onsite / Hybrid / Remote)",
   github: "https://github.com/SarawutEz",
   instagram: "https://www.instagram.com/sarawut_wsth/",
-  facebook: "https://facebook.com/sarawut",
+  facebook: "https://web.facebook.com/sarawut.wisetphon",
   resumeUrl: "#resume",
   shortBio: "ทำไปเรื่อยชอบการลงมือทำเเละการได้เรียนรู้หรือพบเจอสิ่งใหม่ๆ",
   longBio: [
@@ -346,12 +346,10 @@ export const contactInfo = {
   email: "ark44228@gmail.com",
   phone: "0953371342",
   location: "Bangkok, Thailand (พร้อมทำงาน Onsite / Hybrid / Remote)",
-  discord: "sarawut#1234",
-  lineId: "@sarawut.dev",
   socials: [
     { name: "GitHub", url: "https://github.com/SarawutEz", icon: "Github" },
-    { name: "LinkedIn", url: "https://linkedin.com/in/sarawut", icon: "Linkedin" },
-    { name: "Facebook", url: "https://facebook.com/sarawut", icon: "Facebook" },
+    { name: "Instagram", url: "https://www.instagram.com/sarawut_wsth/", icon: "Instagram" },
+    { name: "Facebook", url: "https://web.facebook.com/sarawut.wisetphon", icon: "Facebook" },
     { name: "Mail", url: "mailto:ark44228@gmail.com", icon: "Mail" }
   ]
 };
