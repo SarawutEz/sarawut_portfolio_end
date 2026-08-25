@@ -6,24 +6,12 @@ import {
   GraduationCap, 
   Briefcase, 
   Award, 
-  Download, 
   ExternalLink,
   CheckCircle2
 } from 'lucide-react';
 import '../../styles/resume.css';
 
 export default function ResumeSection({ onShowToast }) {
-  const handlePrintOrDownload = () => {
-    if (personalData.resumeUrl && personalData.resumeUrl !== '#resume') {
-      window.open(personalData.resumeUrl, '_blank');
-    } else {
-      window.print();
-      if (onShowToast) {
-        onShowToast("เปิดหน้าต่าง Print / Save PDF สำหรับ Resume เรียบร้อยแล้ว", "success");
-      }
-    }
-  };
-
   return (
     <section id="resume" className="resume-section">
       <div className="container">
@@ -34,15 +22,18 @@ export default function ResumeSection({ onShowToast }) {
           subtitle="เส้นทางการเรียนรู้ ประสบการณ์ฝึกงาน และใบประกาศนียบัตรรับรองความสามารถ (Certifications)"
         />
 
-        {/* Header Download CV CTA */}
+        {/* Header View/Open CV Link CTA */}
         <div className="resume-header-actions">
-          <button 
-            onClick={handlePrintOrDownload} 
+          <a 
+            href={personalData.resumeUrl} 
+            target="_blank" 
+            rel="noopener noreferrer"
             className="btn btn-primary btn-lg"
+            style={{ textDecoration: 'none' }}
           >
-            <Download size={18} />
-            <span>ดาวน์โหลด Resume / CV (PDF)</span>
-          </button>
+            <ExternalLink size={18} />
+            <span>เปิดดู Resume / CV (คลิกเข้าลิงก์)</span>
+          </a>
         </div>
 
         {/* Education & Experience Timelines */}

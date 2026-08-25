@@ -117,7 +117,7 @@ export default function HeroSection() {
           <div className="hero-card-container">
             <div className="hero-avatar-wrapper">
               <img
-                src="https://i.postimg.cc/1tQq2566/Sarwut-resume-cv.png"
+                src="\images\Sarwut_avatra.png"
                 alt={personalData.name}
                 className="hero-avatar-img"
               />

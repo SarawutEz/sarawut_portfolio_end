@@ -25,7 +25,7 @@ export default function ProjectModal({ project, onClose }) {
           <X size={20} />
         </button>
 
-        <img src={project.image} alt={project.title} className="modal-hero-img" />
+        <img src={project.image} alt={project.title} className="modal-hero-img" decoding="async" />
 
         <div className="modal-body">
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>

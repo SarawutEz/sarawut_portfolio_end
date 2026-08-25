@@ -17,7 +17,7 @@ export const personalData = {
   github: "https://github.com/SarawutEz",
   instagram: "https://www.instagram.com/sarawut_wsth/",
   facebook: "https://web.facebook.com/sarawut.wisetphon",
-  resumeUrl: "#resume",
+  resumeUrl: "https://canva.link/sarwut-resume-cv",
   shortBio: "ทำไปเรื่อยชอบการลงมือทำเเละการได้เรียนรู้หรือพบเจอสิ่งใหม่ๆ",
   longBio: [
     "ชื่อเบียร์ครับ อายุ 20 ปี ชอบในการคิดสร้างสรรค์เเละการออกเเบบมีความชื่นชอบในการเรียนรู้เเละการหาอะไรทำใหม่ ๆ ชอบในการเล่นเกมเเละการทำให้สิ่งที่สามารถเห็นผลลัพธ์ได้อย่างชัดเจน พร้อมเปิดรับทุกความท้าทายเพื่อพัฒนาตัวเอง",
@@ -96,29 +96,28 @@ export const skillsData = {
 export const projectsData = [
   {
     id: 1,
-    title: "Creative Portfolio & UI Showcase",
-    category: "Full-Stack",
-    description: "เว็บไซต์ Portfolio ดีไซน์โมเดิร์นแบบ Glassmorphism พร้อมระบบสลับธีม และการจัดแสดงผลงานแบบ Interactive",
-    fullDescription: "โปรเจกต์พัฒนาเว็บแอปพลิเคชัน Portfolio สไตล์ Modern Dark Glassmorphism ผสานโทนสีดำ-ขาว-เหลืองนีออน ออกแบบตามหลัก UI/UX User-Centric รองรับทั้ง Desktop, Tablet และ Mobile เต็มรูปแบบ",
-    image: "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=800&q=80",
-    tags: ["React", "Vanilla CSS", "UI/UX Design", "Vite", "Responsive Design"],
-    liveUrl: "https://demo.example.com",
-    githubUrl: "https://github.com/SarawutEz",
+    title: "Web ReMedia",
+    category: "Web Media",
+    description: "เว็บไซต์ในการดูคะเเนนของภาพยนตร์รายการโทรทัศน์เเละซีรีส์จากทั่วโลก",
+    fullDescription: "เว็บไซต์ในการดูคะเเนนของภาพยนตร์ รายการโทรทัศน์เเละซีรีส์พร้อมทั้งมีเรื่อย่อให้อ่านเเละมีกลุ่มชุมชนได้พูดคุยเเรกเปลี่ยนความคิด",
+    image: "/images/remedia.png",
+    tags: ["React", "Tailwind CSS", "UI/UX Design", "Vite", "Responsive Design"],
+    liveUrl: "https://remediamt.netlify.app/",
+    githubUrl: "https://github.com/SarawutEz/ReMedia.git",
     featured: true,
     highlights: [
       "ออกแบบด้วยแนวคิด User-Centric อ่านง่าย สบายตา",
       "ระบบ Theme Switcher รองรับ Dark / Light Mode",
-      "ระบบ Filter แยกหมวดหมู่ผลงานและ Interactive Lightbox สำหรับดูรูปภาพ",
-      "การจัดระเบียบโค้ดแบบ Component-Based ที่นำไปต่อยอดได้ง่าย"
+      "ระบบค้นหารองรับชื่อหลากหลายภาษา",
     ]
   },
   {
     id: 2,
-    title: "Campus Event & Ticket Hub",
-    category: "Full-Stack",
+    title: "Pixel Heealth Buddy",
+    category: "Application",
     description: "ระบบลงทะเบียนและจัดการกิจกรรมพร้อม QR Code และหน้าจัดการข้อมูลแบบ Real-time",
     fullDescription: "แพลตฟอร์มศูนย์รวมกิจกรรมและอีเวนต์สำหรับนักศึกษา ช่วยให้อาจารย์และชมรมสามารถสร้างอีเวนต์ จัดการตั๋ว ตรวจสอบรายชื่อผู้ลงทะเบียน และสแกน QR Code เข้างานได้สะดวกรวดเร็ว",
-    image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=800&q=80",
+    image: "/images/Pixel_Heealth_Buddy.png",
     tags: ["Next.js", "UI Design", "TypeScript", "MongoDB", "QR Scanner"],
     liveUrl: "https://campus-hub.example.com",
     githubUrl: "https://github.com/SarawutEz",
@@ -341,11 +340,11 @@ export const resumeData = {
 };
 
 export const contactInfo = {
-  heading: "มาร่วมสร้างสรรค์สิ่งใหม่ด้วยกัน (Let's Connect & Collaborate)",
-  subheading: "ไม่ว่าคุณจะมีโปรเจกต์น่าสนใจ โอกาสงาน Full-time / Internship หรืองาน Freelance ด้าน Web, UI/UX หรือ Video Content สามารถส่งข้อความหาผมได้ตลอดเวลาครับ",
+  heading: "มาร่วมสร้างสรรค์สิ่งใหม่ด้วยกัน",
+  subheading: "",
   email: "ark44228@gmail.com",
   phone: "0953371342",
-  location: "Bangkok, Thailand (พร้อมทำงาน Onsite / Hybrid / Remote)",
+  location: "Chanthaburi, Thailand",
   socials: [
     { name: "GitHub", url: "https://github.com/SarawutEz", icon: "Github" },
     { name: "Instagram", url: "https://www.instagram.com/sarawut_wsth/", icon: "Instagram" },

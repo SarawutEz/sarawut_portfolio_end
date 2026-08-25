@@ -6,7 +6,7 @@ import { projectsData } from '../../data/portfolioData';
 import { FolderGit2, ExternalLink, Eye } from 'lucide-react';
 import '../../styles/projects.css';
 
-const categories = ["ทั้งหมด (All)", "Full-Stack", "Frontend", "Backend / API", "Mobile / AI"];
+const dynamicCategories = ["ทั้งหมด (All)", ...Array.from(new Set(projectsData.map(p => p.category).filter(Boolean)))];
 
 export default function ProjectsSection() {
   const [activeCategory, setActiveCategory] = useState("ทั้งหมด (All)");
@@ -28,7 +28,7 @@ export default function ProjectsSection() {
 
         {/* Filter Tabs */}
         <div className="project-filters">
-          {categories.map((cat, idx) => (
+          {dynamicCategories.map((cat, idx) => (
             <button
               key={idx}
               className={`filter-btn ${activeCategory === cat ? 'active' : ''}`}
@@ -44,7 +44,13 @@ export default function ProjectsSection() {
           {filteredProjects.map((project) => (
             <div key={project.id} className="glass-card project-card">
               <div className="project-img-box">
-                <img src={project.image} alt={project.title} className="project-img" />
+                <img 
+                  src={project.image} 
+                  alt={project.title} 
+                  className="project-img" 
+                  loading="lazy"
+                  decoding="async"
+                />
                 <span className="project-category-badge">
                   {project.category}
                 </span>
