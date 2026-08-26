@@ -18,8 +18,8 @@
 }
 
 .column-title {
-  font-size: clamp(1.15rem, 3vw, 1.35rem);
-  font-weight: 700;
+  font-size: clamp(1.15rem, 3vw, 1.3rem);
+  font-weight: 500;
   color: var(--text-primary);
   display: flex;
   align-items: center;
@@ -78,30 +78,31 @@
 
 .timeline-period {
   display: inline-block;
-  font-size: 0.82rem;
-  font-weight: 700;
+  font-size: 0.8rem;
+  font-weight: 500;
   color: var(--accent-yellow);
   margin-bottom: 6px;
 }
 
 .timeline-heading {
-  font-size: 1.12rem;
-  font-weight: 700;
+  font-size: 1.08rem;
+  font-weight: 500;
   color: var(--text-primary);
   margin-bottom: 4px;
 }
 
 .timeline-subheading {
-  font-size: 0.92rem;
-  font-weight: 500;
+  font-size: 0.88rem;
+  font-weight: 400;
   color: var(--text-secondary);
   margin-bottom: 12px;
 }
 
 .timeline-desc {
-  font-size: 0.9rem;
+  font-size: 0.88rem;
+  font-weight: 300;
   color: var(--text-secondary);
-  line-height: 1.6;
+  line-height: 1.65;
 }
 
 .timeline-responsibilities {
@@ -114,11 +115,12 @@
 
 .timeline-responsibility-item {
   font-size: 0.88rem;
+  font-weight: 300;
   color: var(--text-secondary);
   display: flex;
   align-items: flex-start;
   gap: 8px;
-  line-height: 1.5;
+  line-height: 1.55;
 }
 
 .resp-check-icon {
@@ -153,15 +155,16 @@
 }
 
 .cert-title {
-  font-size: 1.02rem;
-  font-weight: 700;
+  font-size: 1rem;
+  font-weight: 500;
   color: var(--text-primary);
   margin-bottom: 6px;
   line-height: 1.35;
 }
 
 .cert-issuer {
-  font-size: 0.85rem;
+  font-size: 0.82rem;
+  font-weight: 300;
   color: var(--text-secondary);
   margin-bottom: 12px;
 }
@@ -172,12 +175,14 @@
   justify-content: space-between;
   padding-top: 12px;
   border-top: 1px solid var(--border-color);
-  font-size: 0.82rem;
+  font-size: 0.8rem;
+  font-weight: 300;
   color: var(--text-muted);
 }
 
 .cert-verify-link {
   color: var(--accent-yellow);
+  font-weight: 400;
   text-decoration: none;
   display: flex;
   align-items: center;

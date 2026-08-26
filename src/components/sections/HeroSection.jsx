@@ -32,10 +32,6 @@ export default function HeroSection() {
             <span>{personalData.statusBadge}</span>
           </div>
 
-          <div className="hero-greeting">
-            สวัสดีครับ 👋 ยินดีต้อนรับสู่ Portfolio ของผม
-          </div>
-
           <h1 className="hero-name">
             {personalData.name}
           </h1>
@@ -75,7 +71,7 @@ export default function HeroSection() {
           </div>
 
           <div className="hero-socials-wrapper">
-            <span className="hero-socials-label">Connect with me:</span>
+          
             <div className="hero-socials">
               <a
                 href={personalData.github}
