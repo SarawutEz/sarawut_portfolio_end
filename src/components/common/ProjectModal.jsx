@@ -8,10 +8,10 @@ export default function ProjectModal({ project, onClose }) {
     const handleKeyDown = (e) => {
       if (e.key === 'Escape') onClose();
     };
-    document.body.style.overflow = 'hidden';
+    document.body.classList.add('scroll-lock');
     window.addEventListener('keydown', handleKeyDown);
     return () => {
-      document.body.style.overflow = 'unset';
+      document.body.classList.remove('scroll-lock');
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, [onClose]);
@@ -20,15 +20,17 @@ export default function ProjectModal({ project, onClose }) {
 
   return (
     <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        <button className="modal-close-btn" onClick={onClose} aria-label="Close modal">
+      <div className="modal-content" onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true">
+        <button className="modal-close-btn" onClick={onClose} aria-label="Close modal" type="button">
           <X size={20} />
         </button>
 
-        <img src={project.image} alt={project.title} className="modal-hero-img" decoding="async" />
+        <div className="modal-hero-img-box">
+          <img src={project.image} alt={project.title} className="modal-hero-img" decoding="async" />
+        </div>
 
         <div className="modal-body">
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px', flexWrap: 'wrap' }}>
             <span className="badge badge-primary">{project.category}</span>
             {project.featured && <span className="badge badge-cyan"><Sparkles size={12} /> Featured</span>}
           </div>
@@ -38,15 +40,15 @@ export default function ProjectModal({ project, onClose }) {
           <p className="modal-description">{project.fullDescription || project.description}</p>
 
           {project.highlights && project.highlights.length > 0 && (
-            <div>
+            <div style={{ marginBottom: '22px' }}>
               <h4 className="modal-section-title">
-                <CheckCircle2 size={18} color="var(--accent-emerald)" />
-                Key Features & Highlights
+                <CheckCircle2 size={18} color="var(--accent-yellow)" />
+                <span>Key Features & Highlights</span>
               </h4>
               <ul className="modal-highlights-list">
                 {project.highlights.map((item, idx) => (
                   <li key={idx} className="modal-highlight-item">
-                    <span style={{ color: 'var(--accent-cyan)', fontWeight: 'bold' }}>•</span>
+                    <span className="highlight-bullet">•</span>
                     <span>{item}</span>
                   </li>
                 ))}
@@ -54,10 +56,10 @@ export default function ProjectModal({ project, onClose }) {
             </div>
           )}
 
-          <div>
+          <div style={{ marginBottom: '24px' }}>
             <h4 className="modal-section-title">
-              <Layers size={18} color="var(--primary-accent)" />
-              Tech Stack & Libraries
+              <Layers size={18} color="var(--accent-yellow)" />
+              <span>Tech Stack & Libraries</span>
             </h4>
             <div className="modal-tags">
               {project.tags.map((tag, idx) => (
@@ -72,9 +74,10 @@ export default function ProjectModal({ project, onClose }) {
                 href={project.liveUrl} 
                 target="_blank" 
                 rel="noreferrer" 
-                className="btn btn-primary"
+                className="btn btn-primary modal-action-btn"
               >
-                <ExternalLink size={16} /> Live Demo
+                <ExternalLink size={16} />
+                <span>Live Demo</span>
               </a>
             )}
             {project.githubUrl && (
@@ -82,9 +85,10 @@ export default function ProjectModal({ project, onClose }) {
                 href={project.githubUrl} 
                 target="_blank" 
                 rel="noreferrer" 
-                className="btn btn-secondary"
+                className="btn btn-secondary modal-action-btn"
               >
-                <Github size={16} /> View Source Code
+                <Github size={16} />
+                <span>View Source Code</span>
               </a>
             )}
           </div>

@@ -14,11 +14,8 @@ import {
   HeartHandshake, 
   Globe, 
   Palette, 
-  Layers, 
   Film, 
-  SlidersHorizontal,
-  Lightbulb,
-  Cpu
+  Lightbulb
 } from 'lucide-react';
 import '../../styles/about.css';
 
@@ -50,9 +47,9 @@ export default function AboutSection() {
         {/* Bio & Stats Grid */}
         <div className="about-grid">
           {/* Bio Card */}
-          <div className="glass-card about-bio-card">
+          <div className="glass-card about-bio-card reveal-on-scroll">
             <div className="about-text-content">
-              <h3 style={{ fontSize: '1.4rem', fontWeight: 700, marginBottom: '16px', color: 'var(--text-primary)' }}>
+              <h3 className="about-subtitle">
                 Passion & Background
               </h3>
               {personalData.longBio.map((paragraph, idx) => (
@@ -60,16 +57,16 @@ export default function AboutSection() {
               ))}
             </div>
 
-            <div style={{ marginTop: '20px', paddingTop: '20px', borderTop: '1px solid var(--border-color)' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--accent-yellow)', fontSize: '0.95rem', fontWeight: 600 }}>
-                <CheckCircle2 size={18} />
+            <div className="about-bio-footer">
+              <div className="about-commitment-badge">
+                <CheckCircle2 size={18} className="commitment-icon" />
                 <span>มุ่งมั่นพัฒนาผลงานคุณภาพ ที่ตอบโจทย์ผู้ใช้งานจริง</span>
               </div>
             </div>
           </div>
 
           {/* Stats Cards */}
-          <div className="stats-grid">
+          <div className="stats-grid reveal-on-scroll stagger-2">
             {personalData.stats.map((stat, idx) => {
               const IconComponent = statIconMap[stat.icon] || Sparkles;
               return (
@@ -86,17 +83,17 @@ export default function AboutSection() {
         </div>
 
         {/* 💡 ความสนใจ (Interests) */}
-        <div className="interests-container">
-          <h3 className="skills-category-title" style={{ marginBottom: '24px' }}>
+        <div className="interests-container reveal-on-scroll">
+          <h3 className="skills-category-title" style={{ marginBottom: '20px' }}>
             <Lightbulb size={22} color="var(--accent-yellow)" />
             <span>💡 ความสนใจหลัก (Interests)</span>
           </h3>
 
           <div className="interests-grid">
-            {interestsData.map((item) => {
+            {interestsData.map((item, idx) => {
               const IconComp = interestIconMap[item.icon] || Sparkles;
               return (
-                <div key={item.id} className="glass-card interest-card">
+                <div key={item.id} className={`glass-card interest-card stagger-${(idx % 4) + 1}`}>
                   <div className="interest-icon-box">
                     <IconComp size={22} />
                   </div>
@@ -109,8 +106,8 @@ export default function AboutSection() {
         </div>
 
         {/* ⚡ ทักษะความสามารถ (Skills) */}
-        <div className="skills-container">
-          <h3 className="skills-category-title" style={{ marginBottom: '24px' }}>
+        <div className="skills-container reveal-on-scroll">
+          <h3 className="skills-category-title" style={{ marginBottom: '20px' }}>
             <Sparkles size={22} color="var(--accent-yellow)" />
             <span>⚡ ทักษะความสามารถ (Skills)</span>
           </h3>
@@ -118,10 +115,10 @@ export default function AboutSection() {
           <div className="skills-grid">
             {/* Web & UI/UX Design */}
             <div className="glass-card skill-category-card">
-              <h3 className="skills-category-title">
-                <Palette size={20} color="var(--accent-yellow)" />
+              <h4 className="skill-group-title">
+                <Palette size={19} color="var(--accent-yellow)" />
                 <span>Web & UI/UX Design</span>
-              </h3>
+              </h4>
               <div className="skill-chips-grid">
                 {skillsData.webAndDesign.map((skill, idx) => (
                   <div key={idx} className="skill-chip">
@@ -134,10 +131,10 @@ export default function AboutSection() {
 
             {/* Multimedia & Creative */}
             <div className="glass-card skill-category-card">
-              <h3 className="skills-category-title">
-                <Film size={20} color="var(--accent-yellow)" />
+              <h4 className="skill-group-title">
+                <Film size={19} color="var(--accent-yellow)" />
                 <span>Multimedia & Creative Editing</span>
-              </h3>
+              </h4>
               <div className="skill-chips-grid">
                 {skillsData.multimediaAndCreative.map((skill, idx) => (
                   <div key={idx} className="skill-chip">
@@ -150,11 +147,11 @@ export default function AboutSection() {
           </div>
 
           {/* 🛠 โปรแกรมที่ใช้งานได้ (Software & Tools) */}
-          <div className="glass-card" style={{ padding: '28px', marginBottom: '30px' }}>
-            <h3 className="skills-category-title" style={{ marginBottom: '20px' }}>
-              <Wrench size={22} color="var(--accent-yellow)" />
+          <div className="glass-card about-block-card reveal-on-scroll" style={{ marginBottom: '24px' }}>
+            <h4 className="skill-group-title" style={{ marginBottom: '18px' }}>
+              <Wrench size={20} color="var(--accent-yellow)" />
               <span>🛠 โปรแกรมที่ใช้งานได้ (Software & Tools)</span>
-            </h3>
+            </h4>
 
             <div className="tools-grid">
               {skillsData.softwareAndTools.map((tool, idx) => (
@@ -167,11 +164,11 @@ export default function AboutSection() {
           </div>
 
           {/* 🤝 Soft Skills & Working Attributes */}
-          <div className="glass-card" style={{ padding: '28px' }}>
-            <h3 className="skills-category-title" style={{ marginBottom: '14px' }}>
-              <HeartHandshake size={22} color="var(--accent-yellow)" />
+          <div className="glass-card about-block-card reveal-on-scroll">
+            <h4 className="skill-group-title" style={{ marginBottom: '14px' }}>
+              <HeartHandshake size={20} color="var(--accent-yellow)" />
               <span>🤝 ทักษะการทำงานและ Soft Skills</span>
-            </h3>
+            </h4>
             <div className="soft-skills-wrapper">
               {skillsData.softSkills.map((item, idx) => (
                 <div key={idx} className="soft-skill-pill">

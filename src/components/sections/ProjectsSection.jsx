@@ -27,22 +27,28 @@ export default function ProjectsSection() {
         />
 
         {/* Filter Tabs */}
-        <div className="project-filters">
-          {dynamicCategories.map((cat, idx) => (
-            <button
-              key={idx}
-              className={`filter-btn ${activeCategory === cat ? 'active' : ''}`}
-              onClick={() => setActiveCategory(cat)}
-            >
-              {cat}
-            </button>
-          ))}
+        <div className="project-filters-wrapper reveal-on-scroll">
+          <div className="project-filters">
+            {dynamicCategories.map((cat, idx) => (
+              <button
+                key={idx}
+                className={`filter-btn ${activeCategory === cat ? 'active' : ''}`}
+                onClick={() => setActiveCategory(cat)}
+                type="button"
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* Projects Grid */}
         <div className="projects-grid">
-          {filteredProjects.map((project) => (
-            <div key={project.id} className="glass-card project-card">
+          {filteredProjects.map((project, idx) => (
+            <div 
+              key={project.id} 
+              className={`glass-card project-card reveal-on-scroll stagger-${(idx % 3) + 1}`}
+            >
               <div className="project-img-box">
                 <img 
                   src={project.image} 
@@ -61,8 +67,8 @@ export default function ProjectsSection() {
                 <p className="project-desc">{project.description}</p>
 
                 <div className="project-tags">
-                  {project.tags.slice(0, 4).map((tag, idx) => (
-                    <span key={idx} className="badge badge-cyan">{tag}</span>
+                  {project.tags.slice(0, 4).map((tag, tIdx) => (
+                    <span key={tIdx} className="badge badge-cyan">{tag}</span>
                   ))}
                   {project.tags.length > 4 && (
                     <span className="badge">+{project.tags.length - 4}</span>
@@ -73,6 +79,7 @@ export default function ProjectsSection() {
                   <button 
                     className="btn btn-secondary btn-sm"
                     onClick={() => setSelectedProject(project)}
+                    type="button"
                   >
                     <Eye size={15} />
                     <span>ดูรายละเอียด</span>
@@ -86,6 +93,7 @@ export default function ProjectsSection() {
                         rel="noreferrer" 
                         className="project-link-btn"
                         title="Live Demo"
+                        aria-label={`Live Demo for ${project.title}`}
                       >
                         <ExternalLink size={17} />
                       </a>
@@ -97,6 +105,7 @@ export default function ProjectsSection() {
                         rel="noreferrer" 
                         className="project-link-btn"
                         title="GitHub Repository"
+                        aria-label={`GitHub Repository for ${project.title}`}
                       >
                         <Github size={17} />
                       </a>

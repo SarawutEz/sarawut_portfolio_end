@@ -16,10 +16,19 @@ export default function ActivitiesSection() {
         />
 
         <div className="activities-grid">
-          {activitiesData.map((activity) => (
-            <div key={activity.id} className="glass-card activity-card">
+          {activitiesData.map((activity, idx) => (
+            <div 
+              key={activity.id} 
+              className={`glass-card activity-card reveal-on-scroll stagger-${(idx % 3) + 1}`}
+            >
               <div className="activity-img-box">
-                <img src={activity.image} alt={activity.title} className="activity-img" />
+                <img 
+                  src={activity.image} 
+                  alt={activity.title} 
+                  className="activity-img" 
+                  loading="lazy" 
+                  decoding="async" 
+                />
                 {activity.badge && (
                   <span className="activity-badge">
                     {activity.badge}
@@ -30,7 +39,7 @@ export default function ActivitiesSection() {
               <div className="activity-content">
                 <div className="activity-meta">
                   <div className="activity-meta-item">
-                    <Calendar size={14} color="var(--accent-cyan)" />
+                    <Calendar size={14} color="var(--accent-yellow)" />
                     <span>{activity.date}</span>
                   </div>
                   <div className="activity-meta-item">
@@ -48,8 +57,8 @@ export default function ActivitiesSection() {
                 <p className="activity-desc">{activity.description}</p>
 
                 <div className="activity-tags">
-                  {activity.tags.map((tag, idx) => (
-                    <span key={idx} className="badge badge-primary">{tag}</span>
+                  {activity.tags.map((tag, tIdx) => (
+                    <span key={tIdx} className="badge badge-primary">{tag}</span>
                   ))}
                 </div>
               </div>

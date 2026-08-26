@@ -42,16 +42,19 @@ export default function GallerySection() {
         />
 
         {/* Filter Categories */}
-        <div className="gallery-filters">
-          {categories.map((cat, idx) => (
-            <button
-              key={idx}
-              className={`filter-btn ${activeCategory === cat ? 'active' : ''}`}
-              onClick={() => setActiveCategory(cat)}
-            >
-              {cat}
-            </button>
-          ))}
+        <div className="gallery-filters-wrapper reveal-on-scroll">
+          <div className="gallery-filters">
+            {categories.map((cat, idx) => (
+              <button
+                key={idx}
+                className={`filter-btn ${activeCategory === cat ? 'active' : ''}`}
+                onClick={() => setActiveCategory(cat)}
+                type="button"
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* Gallery Grid */}
@@ -59,10 +62,20 @@ export default function GallerySection() {
           {filteredGallery.map((item, index) => (
             <div 
               key={item.id} 
-              className="gallery-item-card"
+              className={`gallery-item-card reveal-on-scroll stagger-${(index % 3) + 1}`}
               onClick={() => handleOpenLightbox(index)}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') handleOpenLightbox(index); }}
+              aria-label={`Open photo ${item.title}`}
             >
-              <img src={item.image} alt={item.title} className="gallery-img" loading="lazy" />
+              <img 
+                src={item.image} 
+                alt={item.title} 
+                className="gallery-img" 
+                loading="lazy" 
+                decoding="async" 
+              />
               
               <div className="gallery-zoom-icon">
                 <Maximize2 size={16} />

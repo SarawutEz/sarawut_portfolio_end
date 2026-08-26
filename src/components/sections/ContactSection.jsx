@@ -33,7 +33,7 @@ export default function ContactSection({ onShowToast }) {
           subtitle="ติดต่อสอบถามเสนองาน หรือแลกเปลี่ยนเรื่องเทคโนโลยีได้ตามช่องทางด้านล่างครับ"
         />
 
-        <div className="contact-container">
+        <div className="contact-container reveal-on-scroll">
           {/* Direct Contact Info Card */}
           <div className="glass-card contact-info-card">
             <div>
@@ -47,9 +47,9 @@ export default function ContactSection({ onShowToast }) {
                 <div className="contact-icon-box">
                   <Mail size={22} />
                 </div>
-                <div>
+                <div className="contact-text-content">
                   <div className="contact-text-label">Email Address</div>
-                  <div style={{ display: 'flex', alignItems: 'center' }}>
+                  <div className="contact-email-row">
                     <a href={`mailto:${contactInfo.email}`} className="contact-text-val" style={{ textDecoration: 'none' }}>
                       {contactInfo.email}
                     </a>
@@ -58,6 +58,7 @@ export default function ContactSection({ onShowToast }) {
                       className="copy-btn-sm"
                       title="Copy Email"
                       aria-label="Copy Email"
+                      type="button"
                     >
                       {copied ? <Check size={13} color="#10b981" /> : <Copy size={13} />}
                       <span>{copied ? 'Copied!' : 'Copy'}</span>
@@ -71,7 +72,7 @@ export default function ContactSection({ onShowToast }) {
                 <div className="contact-icon-box">
                   <Phone size={22} />
                 </div>
-                <div>
+                <div className="contact-text-content">
                   <div className="contact-text-label">Phone Number</div>
                   <a href={`tel:${contactInfo.phone}`} className="contact-text-val" style={{ textDecoration: 'none' }}>
                     {contactInfo.phone}
@@ -84,7 +85,7 @@ export default function ContactSection({ onShowToast }) {
                 <div className="contact-icon-box">
                   <MapPin size={22} />
                 </div>
-                <div>
+                <div className="contact-text-content">
                   <div className="contact-text-label">Location / Work Preference</div>
                   <div className="contact-text-val">{contactInfo.location}</div>
                 </div>
@@ -92,21 +93,47 @@ export default function ContactSection({ onShowToast }) {
             </div>
 
             {/* Social Connects */}
-            <div style={{ paddingTop: '16px', borderTop: '1px solid var(--border-color)' }}>
-              <div style={{ fontSize: '0.9rem', fontWeight: '600', marginBottom: '14px', color: 'var(--text-primary)' }}>
+            <div className="contact-social-footer">
+              <div className="contact-social-label">
                 Social Channels & Repositories
               </div>
-              <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-                <a href={personalData.github} target="_blank" rel="noreferrer" className="social-icon-btn" title="GitHub">
+              <div className="contact-social-icons">
+                <a 
+                  href={personalData.github} 
+                  target="_blank" 
+                  rel="noreferrer" 
+                  className="social-icon-btn" 
+                  title="GitHub"
+                  aria-label="GitHub"
+                >
                   <Github size={20} />
                 </a>
-                <a href={personalData.instagram} target="_blank" rel="noreferrer" className="social-icon-btn" title="Instagram">
+                <a 
+                  href={personalData.instagram} 
+                  target="_blank" 
+                  rel="noreferrer" 
+                  className="social-icon-btn" 
+                  title="Instagram"
+                  aria-label="Instagram"
+                >
                   <Instagram size={20} />
                 </a>
-                <a href={personalData.facebook} target="_blank" rel="noreferrer" className="social-icon-btn" title="Facebook">
+                <a 
+                  href={personalData.facebook} 
+                  target="_blank" 
+                  rel="noreferrer" 
+                  className="social-icon-btn" 
+                  title="Facebook"
+                  aria-label="Facebook"
+                >
                   <Facebook size={20} />
                 </a>
-                <a href={`mailto:${contactInfo.email}`} className="social-icon-btn" title="Email">
+                <a 
+                  href={`mailto:${contactInfo.email}`} 
+                  className="social-icon-btn" 
+                  title="Email"
+                  aria-label="Send Email"
+                >
                   <Mail size={20} />
                 </a>
               </div>

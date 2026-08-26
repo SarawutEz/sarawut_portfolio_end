@@ -9,10 +9,10 @@ export default function Lightbox({ images, currentIndex, onClose, onPrev, onNext
       if (e.key === 'ArrowLeft') onPrev();
       if (e.key === 'ArrowRight') onNext();
     };
-    document.body.style.overflow = 'hidden';
+    document.body.classList.add('scroll-lock');
     window.addEventListener('keydown', handleKeyDown);
     return () => {
-      document.body.style.overflow = 'unset';
+      document.body.classList.remove('scroll-lock');
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, [onClose, onPrev, onNext]);
@@ -23,18 +23,19 @@ export default function Lightbox({ images, currentIndex, onClose, onPrev, onNext
 
   return (
     <div className="modal-overlay" onClick={onClose}>
-      <button className="modal-close-btn" onClick={onClose} aria-label="Close Lightbox">
+      <button className="modal-close-btn" onClick={onClose} aria-label="Close Lightbox" type="button">
         <X size={22} />
       </button>
 
-      <div className="lightbox-content" onClick={(e) => e.stopPropagation()}>
+      <div className="lightbox-content" onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true">
         <div className="lightbox-img-wrapper">
           <button 
             className="lightbox-nav-btn lightbox-nav-prev" 
             onClick={onPrev}
             aria-label="Previous Image"
+            type="button"
           >
-            <ChevronLeft size={28} />
+            <ChevronLeft size={26} />
           </button>
 
           <img 
@@ -47,20 +48,26 @@ export default function Lightbox({ images, currentIndex, onClose, onPrev, onNext
             className="lightbox-nav-btn lightbox-nav-next" 
             onClick={onNext}
             aria-label="Next Image"
+            type="button"
           >
-            <ChevronRight size={28} />
+            <ChevronRight size={26} />
           </button>
         </div>
 
         <div className="lightbox-caption-box">
-          <div style={{ fontWeight: '600', marginBottom: '4px' }}>
+          <div className="lightbox-caption-title">
             {currentItem.title}
           </div>
-          <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
-            {currentItem.caption}
-          </div>
-          <div style={{ fontSize: '0.75rem', color: 'var(--accent-cyan)', marginTop: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px' }}>
-            <Calendar size={12} /> {currentItem.date} • ({currentIndex + 1} / {images.length})
+          {currentItem.caption && (
+            <div className="lightbox-caption-desc">
+              {currentItem.caption}
+            </div>
+          )}
+          <div className="lightbox-caption-meta">
+            <Calendar size={13} />
+            <span>{currentItem.date}</span>
+            <span>•</span>
+            <span>({currentIndex + 1} / {images.length})</span>
           </div>
         </div>
       </div>
