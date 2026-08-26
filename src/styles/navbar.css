@@ -220,7 +220,8 @@
   z-index: 3000;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
+  align-items: center;
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
@@ -228,7 +229,7 @@
   transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.35s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  padding: 70px 20px 24px 20px;
+  padding: 60px 20px 24px 20px;
 }
 
 [data-theme="light"] .fullscreen-mobile-menu {
@@ -242,15 +243,16 @@
   transform: scale(1);
 }
 
+/* Cohesive Centered Content Box */
 .fs-menu-inner {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  min-height: calc(100vh - 100px);
+  justify-content: center;
+  gap: 22px;
   width: 100%;
-  max-width: 440px;
-  margin: 0 auto;
+  max-width: 360px;
+  margin: auto;
 }
 
 /* Top Brand Emblem */
@@ -259,8 +261,7 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  margin-top: 4px;
-  margin-bottom: 16px;
+  margin-bottom: 2px;
 }
 
 .fs-brand-box {
@@ -298,7 +299,6 @@
   flex-direction: column;
   align-items: center;
   width: 100%;
-  margin: auto 0;
 }
 
 .fs-nav-list {
@@ -312,7 +312,7 @@
 }
 
 .fs-nav-item {
-  transform: translateY(20px);
+  transform: translateY(16px);
   opacity: 0;
   transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
   width: 100%;
@@ -328,7 +328,7 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 6px 14px;
+  padding: 4px 14px;
   font-size: clamp(0.92rem, 3vw, 1.02rem);
   font-weight: 400;
   letter-spacing: 2.5px;
@@ -357,15 +357,14 @@
   animation: pulseGlow 1.8s infinite;
 }
 
-/* Bottom Capsule CTA Button */
+/* Bottom Capsule CTA Button (Directly following RESUME / CV) */
 .fs-menu-bottom {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 14px;
   width: 100%;
-  margin-top: 20px;
-  padding-bottom: env(safe-area-inset-bottom, 8px);
+  margin-top: 6px; /* Sits closely and comfortably below RESUME / CV */
 }
 
 .fs-capsule-btn {
@@ -374,7 +373,7 @@
   justify-content: center;
   gap: 8px;
   width: 100%;
-  max-width: 300px;
+  max-width: 280px;
   padding: 11px 20px;
   border-radius: var(--border-radius-full);
   background: #ffffff;
