@@ -47,7 +47,17 @@ export default function ProjectsSection() {
           {filteredProjects.map((project, idx) => (
             <div 
               key={project.id} 
-              className={`glass-card project-card reveal-on-scroll stagger-${(idx % 3) + 1}`}
+              className={`glass-card project-card clickable-card reveal-on-scroll stagger-${(idx % 3) + 1}`}
+              onClick={() => setSelectedProject(project)}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  setSelectedProject(project);
+                }
+              }}
+              aria-label={`คลิกเพื่อดูรายละเอียด ${project.title}`}
             >
               <div className="project-img-box">
                 <img 
@@ -60,6 +70,10 @@ export default function ProjectsSection() {
                 <span className="project-category-badge">
                   {project.category}
                 </span>
+                <div className="project-card-overlay-hint">
+                  <Eye size={18} />
+                  <span>คลิกดูรายละเอียด</span>
+                </div>
               </div>
 
               <div className="project-content">
@@ -77,15 +91,19 @@ export default function ProjectsSection() {
 
                 <div className="project-actions">
                   <button 
-                    className="btn btn-secondary btn-sm"
-                    onClick={() => setSelectedProject(project)}
+                    className="btn btn-secondary btn-sm project-view-details-btn"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSelectedProject(project);
+                    }}
                     type="button"
+                    aria-label={`ดูรายละเอียด ${project.title}`}
                   >
                     <Eye size={15} />
                     <span>ดูรายละเอียด</span>
                   </button>
 
-                  <div className="project-links">
+                  <div className="project-links" onClick={(e) => e.stopPropagation()}>
                     {project.liveUrl && (
                       <a 
                         href={project.liveUrl} 
@@ -94,6 +112,7 @@ export default function ProjectsSection() {
                         className="project-link-btn"
                         title="Live Demo"
                         aria-label={`Live Demo for ${project.title}`}
+                        onClick={(e) => e.stopPropagation()}
                       >
                         <ExternalLink size={17} />
                       </a>
@@ -106,6 +125,7 @@ export default function ProjectsSection() {
                         className="project-link-btn"
                         title="GitHub Repository"
                         aria-label={`GitHub Repository for ${project.title}`}
+                        onClick={(e) => e.stopPropagation()}
                       >
                         <Github size={17} />
                       </a>

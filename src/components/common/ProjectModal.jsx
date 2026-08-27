@@ -1,9 +1,13 @@
-import React, { useEffect } from 'react';
-import { X, ExternalLink, CheckCircle2, Layers, Sparkles } from 'lucide-react';
+import React, { useEffect, useState, useRef } from 'react';
+import { X, ExternalLink, CheckCircle2, Layers, Sparkles, ChevronDown } from 'lucide-react';
 import { Github } from './BrandIcons';
 import '../../styles/modal.css';
 
 export default function ProjectModal({ project, onClose }) {
+  const [touchStartY, setTouchStartY] = useState(null);
+  const [touchEndY, setTouchEndY] = useState(null);
+  const contentRef = useRef(null);
+
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === 'Escape') onClose();
@@ -18,10 +22,60 @@ export default function ProjectModal({ project, onClose }) {
 
   if (!project) return null;
 
+  const handleTouchStart = (e) => {
+    // Only allow swipe to dismiss if at the top of the modal scroll
+    if (contentRef.current && contentRef.current.scrollTop === 0) {
+      setTouchStartY(e.targetTouches[0].clientY);
+    }
+  };
+
+  const handleTouchMove = (e) => {
+    if (touchStartY !== null) {
+      setTouchEndY(e.targetTouches[0].clientY);
+    }
+  };
+
+  const handleTouchEnd = () => {
+    if (touchStartY !== null && touchEndY !== null) {
+      const distance = touchEndY - touchStartY;
+      if (distance > 70) {
+        onClose();
+      }
+    }
+    setTouchStartY(null);
+    setTouchEndY(null);
+  };
+
   return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true">
-        <button className="modal-close-btn" onClick={onClose} aria-label="Close modal" type="button">
+    <div className="modal-overlay" onClick={onClose} role="presentation">
+      <div 
+        ref={contentRef}
+        className="modal-content" 
+        onClick={(e) => e.stopPropagation()} 
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+        role="dialog" 
+        aria-modal="true"
+        aria-labelledby="modal-project-title"
+      >
+        {/* Mobile Drag / Pull Indicator */}
+        <div 
+          className="modal-drag-handle-container"
+          onClick={onClose}
+          title="แตะหรือปัดลงเพื่อปิด"
+          aria-label="แตะหรือปัดลงเพื่อปิด"
+        >
+          <div className="modal-drag-pill"></div>
+        </div>
+
+        {/* Top Floating Close Button */}
+        <button 
+          className="modal-close-btn" 
+          onClick={onClose} 
+          aria-label="ปิดหน้าต่าง (Close modal)" 
+          type="button"
+        >
           <X size={20} />
         </button>
 
@@ -35,7 +89,7 @@ export default function ProjectModal({ project, onClose }) {
             {project.featured && <span className="badge badge-cyan"><Sparkles size={12} /> Featured</span>}
           </div>
 
-          <h3 className="modal-title">{project.title}</h3>
+          <h3 id="modal-project-title" className="modal-title">{project.title}</h3>
           
           <p className="modal-description">{project.fullDescription || project.description}</p>
 
@@ -91,6 +145,15 @@ export default function ProjectModal({ project, onClose }) {
                 <span>View Source Code</span>
               </a>
             )}
+            <button 
+              type="button" 
+              className="btn btn-close-modal modal-action-btn"
+              onClick={onClose}
+              aria-label="ปิดหน้าต่างรายละเอียด"
+            >
+              <ChevronDown size={18} className="modal-close-down-icon" />
+              <span>ปิดหน้าต่าง</span>
+            </button>
           </div>
         </div>
       </div>

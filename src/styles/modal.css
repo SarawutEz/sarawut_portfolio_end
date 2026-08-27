@@ -1,10 +1,10 @@
 /* Modal and Lightbox Styles - Black, White, Yellow Theme */
 .modal-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
+  inset: 0;
   width: 100vw;
-  height: 100vh;
+  height: 100%;
+  height: 100dvh;
   background: rgba(9, 9, 11, 0.88);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
@@ -12,8 +12,14 @@
   align-items: center;
   justify-content: center;
   padding: 20px;
-  z-index: 2000;
+  z-index: 9999;
   animation: fadeInModal 0.25s ease forwards;
+  touch-action: pan-y;
+  overscroll-behavior: contain;
+}
+
+[data-theme="light"] .modal-overlay {
+  background: rgba(15, 23, 42, 0.65);
 }
 
 .modal-content {
@@ -23,34 +29,82 @@
   width: 100%;
   max-width: 760px;
   max-height: 90vh;
+  max-height: 90dvh;
   overflow-y: auto;
   position: relative;
   box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 35px rgba(250, 204, 21, 0.2);
   animation: scaleUpModal 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
 }
 
+[data-theme="light"] .modal-content {
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.2), 0 0 30px rgba(202, 138, 4, 0.15);
+}
+
+/* Mobile Drag Handle Container (Visible on Mobile Sheet) */
+.modal-drag-handle-container {
+  display: none;
+  width: 100%;
+  padding: 12px 0 6px 0;
+  align-items: center;
+  justify-content: center;
+  cursor: grab;
+  touch-action: none;
+  background: transparent;
+  user-select: none;
+}
+
+.modal-drag-pill {
+  width: 44px;
+  height: 5px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.28);
+  transition: background var(--transition-fast), transform var(--transition-fast);
+}
+
+[data-theme="light"] .modal-drag-pill {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.modal-drag-handle-container:active .modal-drag-pill {
+  background: var(--accent-yellow);
+  transform: scaleX(1.2);
+}
+
+/* Close Button */
 .modal-close-btn {
   position: absolute;
   top: 14px;
   right: 14px;
-  width: 38px;
-  height: 38px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   background: rgba(9, 9, 11, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   border: 1px solid var(--border-color);
   color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  z-index: 20;
+  z-index: 30;
   transition: all var(--transition-fast);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+[data-theme="light"] .modal-close-btn {
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--text-primary);
+  border-color: rgba(0, 0, 0, 0.15);
 }
 
 .modal-close-btn:hover {
-  background: rgba(239, 68, 68, 0.9);
-  transform: rotate(90deg);
+  background: #ef4444;
+  color: #ffffff;
+  border-color: #ef4444;
+  transform: rotate(90deg) scale(1.05);
 }
 
 .modal-close-btn:active {
@@ -135,13 +189,59 @@
 .modal-footer-actions {
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding-top: 18px;
+  gap: 12px;
+  padding-top: 20px;
+  margin-top: 10px;
   border-top: 1px solid var(--border-color);
   flex-wrap: wrap;
 }
 
+.btn-close-modal {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  padding: 10px 18px;
+  font-size: 0.9rem;
+  border-radius: var(--border-radius-sm);
+  font-weight: 400;
+}
+
+.btn-close-modal:hover {
+  border-color: var(--accent-yellow);
+  color: var(--text-primary);
+  background: var(--bg-card-hover);
+}
+
+.btn-close-modal:active {
+  transform: scale(0.96);
+}
+
+.modal-close-down-icon {
+  transition: transform var(--transition-fast);
+}
+
+.btn-close-modal:hover .modal-close-down-icon {
+  transform: translateY(2px);
+}
+
 /* Lightbox specific */
+.lightbox-overlay {
+  padding: 16px;
+}
+
+.lightbox-close-btn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 10001;
+}
+
 .lightbox-content {
   position: relative;
   max-width: 900px;
@@ -149,12 +249,14 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  animation: scaleUpModal 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .lightbox-img-wrapper {
   position: relative;
   width: 100%;
   max-height: 70vh;
+  max-height: 70dvh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -163,6 +265,7 @@
 .lightbox-img {
   max-width: 100%;
   max-height: 70vh;
+  max-height: 70dvh;
   border-radius: var(--border-radius-md);
   object-fit: contain;
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9);
@@ -173,24 +276,26 @@
   text-align: center;
   background: var(--bg-card);
   border: 1px solid var(--border-color);
-  padding: 12px 20px;
+  padding: 14px 22px;
   border-radius: var(--border-radius-md);
   color: var(--text-primary);
   max-width: 90%;
   box-shadow: var(--glass-shadow);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
 }
 
 .lightbox-caption-title {
   font-weight: 500;
   font-size: 0.95rem;
-  margin-bottom: 4px;
 }
 
 .lightbox-caption-desc {
   font-size: 0.82rem;
   font-weight: 300;
   color: var(--text-secondary);
-  margin-bottom: 6px;
 }
 
 .lightbox-caption-meta {
@@ -201,16 +306,39 @@
   justify-content: center;
   gap: 6px;
   font-weight: 400;
+  margin-top: 2px;
+}
+
+.lightbox-mobile-close-btn {
+  display: none;
+  margin-top: 8px;
+  padding: 6px 14px;
+  font-size: 0.8rem;
+  border-radius: var(--border-radius-full);
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+}
+
+.lightbox-mobile-close-btn:active {
+  transform: scale(0.95);
+  background: var(--accent-yellow);
+  color: #09090b;
 }
 
 .lightbox-nav-btn {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: 44px;
-  height: 44px;
+  width: 46px;
+  height: 46px;
   border-radius: 50%;
-  background: rgba(9, 9, 11, 0.75);
+  background: rgba(9, 9, 11, 0.8);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
   border: 1px solid rgba(250, 204, 21, 0.4);
   color: #fff;
   display: flex;
@@ -232,58 +360,128 @@
 }
 
 .lightbox-nav-prev {
-  left: -20px;
+  left: -24px;
 }
 
 .lightbox-nav-next {
-  right: -20px;
+  right: -24px;
 }
 
+/* Animations */
 @keyframes fadeInModal {
   from { opacity: 0; }
   to { opacity: 1; }
 }
 
 @keyframes scaleUpModal {
-  from { opacity: 0; transform: scale(0.95) translateY(16px); }
+  from { opacity: 0; transform: scale(0.96) translateY(14px); }
   to { opacity: 1; transform: scale(1) translateY(0); }
 }
 
-/* Mobile Modals */
+@keyframes slideUpBottomSheet {
+  from { transform: translateY(100%); opacity: 0.5; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* ==========================================================================
+   Mobile Modals & Bottom Sheet UX (< 640px)
+   ========================================================================== */
 @media (max-width: 640px) {
   .modal-overlay {
-    padding: 12px;
+    padding: 0;
     align-items: flex-end;
+    background: rgba(0, 0, 0, 0.85);
   }
+
   .modal-content {
-    max-height: 85vh;
-    border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0;
+    max-height: calc(100dvh - 36px);
+    border-radius: 22px 22px 0 0;
+    border-bottom: none;
+    border-left: none;
+    border-right: none;
+    animation: slideUpBottomSheet 0.32s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    padding-bottom: max(20px, env(safe-area-inset-bottom, 20px));
   }
+
+  .modal-drag-handle-container {
+    display: flex;
+    position: sticky;
+    top: 0;
+    z-index: 35;
+    background: var(--bg-secondary);
+    border-radius: 22px 22px 0 0;
+    padding-top: 10px;
+    padding-bottom: 8px;
+  }
+
+  .modal-close-btn {
+    top: 10px;
+    right: 12px;
+    width: 36px;
+    height: 36px;
+    background: rgba(9, 9, 11, 0.75);
+  }
+
   .modal-hero-img-box {
-    height: 180px;
-    border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0;
+    height: 190px;
+    border-radius: 0;
   }
+
   .modal-body {
     padding: 18px 16px;
   }
+
   .modal-footer-actions {
     flex-direction: column;
     width: 100%;
+    gap: 10px;
   }
+
   .modal-action-btn {
     width: 100%;
+    justify-content: center;
+    padding: 12px 18px;
+    font-size: 0.95rem;
   }
+
+  .btn-close-modal {
+    width: 100%;
+    background: var(--bg-tertiary);
+    order: 3;
+  }
+
+  /* Lightbox Mobile Adjustments */
+  .lightbox-overlay {
+    padding: 10px;
+    align-items: center;
+  }
+
+  .lightbox-close-btn {
+    top: 14px;
+    right: 14px;
+    width: 38px;
+    height: 38px;
+  }
+
   .lightbox-nav-prev {
-    left: 4px;
-    width: 38px;
-    height: 38px;
+    left: 6px;
+    width: 40px;
+    height: 40px;
   }
+
   .lightbox-nav-next {
-    right: 4px;
-    width: 38px;
-    height: 38px;
+    right: 6px;
+    width: 40px;
+    height: 40px;
   }
+
   .lightbox-caption-box {
     max-width: 100%;
+    padding: 12px 14px;
+  }
+
+  .lightbox-mobile-close-btn {
+    display: inline-flex;
   }
 }
+

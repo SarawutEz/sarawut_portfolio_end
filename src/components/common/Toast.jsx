@@ -15,7 +15,7 @@ export default function Toast({ message, type = 'success', onClose }) {
       position: 'fixed',
       bottom: '24px',
       right: '24px',
-      zIndex: 2000,
+      zIndex: 10005,
       display: 'flex',
       alignItems: 'center',
       gap: '12px',
