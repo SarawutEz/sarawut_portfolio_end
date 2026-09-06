@@ -11,8 +11,8 @@ export default function ActivitiesSection() {
         <SectionTitle 
           tag="Activities & Achievements"
           icon={CalendarCheck2}
-          title={<>กิจกรรมและ <span className="gradient-text">การมีส่วนร่วมในวงการ Tech</span></>}
-          subtitle="ประสบการณ์การแข่งขัน Hackathon, การเป็นวิทยากร Workshop, และกิจกรรมสร้างสรรค์เพื่อชุมชนนักพัฒนา"
+          title={<>กิจกรรมและ <span className="gradient-text">การมีส่วนร่วม</span></>}
+          subtitle="ประสบการณ์การและกิจกรรมสร้างสรรค์เพื่อพัฒนาทักษะและความสามารถ"
         />
 
         <div className="activities-grid">

@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import SectionTitle from '../common/SectionTitle';
+import Lightbox from '../common/Lightbox';
 import { resumeData, personalData } from '../../data/portfolioData';
 import { 
   FileText, 
@@ -7,11 +8,46 @@ import {
   Briefcase, 
   Award, 
   ExternalLink,
-  CheckCircle2
+  CheckCircle2,
+  Calendar
 } from 'lucide-react';
 import '../../styles/resume.css';
 
 export default function ResumeSection() {
+  const [currentLightboxIndex, setCurrentLightboxIndex] = useState(null);
+
+  // Prepare certifications with images for Lightbox viewer
+  const certLightboxItems = (resumeData.certifications || [])
+    .filter((cert) => Boolean(cert.image))
+    .map((cert) => ({
+      image: cert.image,
+      title: cert.title,
+      caption: `${cert.issuer} • ${cert.description || 'ใบประกาศนียบัตรรับรองความรู้ความสามารถ'}`,
+      date: `ปี ${cert.date}`
+    }));
+
+  const handleOpenLightbox = (cert) => {
+    if (!cert.image) return;
+    const index = certLightboxItems.findIndex(
+      (item) => item.image === cert.image && item.title === cert.title
+    );
+    if (index !== -1) {
+      setCurrentLightboxIndex(index);
+    }
+  };
+
+  const handlePrevCertImage = () => {
+    setCurrentLightboxIndex((prev) =>
+      prev === 0 ? certLightboxItems.length - 1 : prev - 1
+    );
+  };
+
+  const handleNextCertImage = () => {
+    setCurrentLightboxIndex((prev) =>
+      prev === certLightboxItems.length - 1 ? 0 : prev + 1
+    );
+  };
+
   return (
     <section id="resume" className="resume-section">
       <div className="container">
@@ -103,30 +139,82 @@ export default function ResumeSection() {
 
           <div className="certifications-grid">
             {resumeData.certifications.map((cert, idx) => (
-              <div key={idx} className={`glass-card cert-card stagger-${(idx % 4) + 1}`}>
-                <div>
-                  <h4 className="cert-title">{cert.title}</h4>
-                  <div className="cert-issuer">{cert.issuer}</div>
-                </div>
-                <div className="cert-footer">
-                  <span>ปี {cert.date}</span>
-                  {cert.credentialUrl && (
-                    <a 
-                      href={cert.credentialUrl} 
-                      target="_blank" 
-                      rel="noreferrer" 
-                      className="cert-verify-link"
-                    >
-                      <span>Verify</span>
-                      <ExternalLink size={13} />
-                    </a>
+              <div 
+                key={cert.id || idx} 
+                className={`glass-card cert-card stagger-${(idx % 4) + 1} ${cert.image ? 'has-image' : ''}`}
+              >
+                {/* Certificate Image Preview */}
+                {cert.image && (
+                  <div 
+                    className="cert-img-box"
+                    onClick={() => handleOpenLightbox(cert)}
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') handleOpenLightbox(cert); }}
+                    aria-label={`รูปภาพใบประกาศนียบัตร ${cert.title}`}
+                  >
+                    <img 
+                      src={cert.image} 
+                      alt={cert.title} 
+                      className="cert-img" 
+                      loading="lazy" 
+                      decoding="async" 
+                    />
+                  </div>
+                )}
+
+                {/* Certificate Info Body */}
+                <div className="cert-body">
+                  <div className="cert-header">
+                    <h4 className="cert-title">{cert.title}</h4>
+                    <div className="cert-issuer-badge">
+                      <Award size={13} color="var(--accent-yellow)" />
+                      <span>{cert.issuer}</span>
+                    </div>
+                  </div>
+
+                  {cert.description && (
+                    <p className="cert-desc">{cert.description}</p>
                   )}
+
+                  <div className="cert-footer">
+                    <div className="cert-date">
+                      <Calendar size={13} />
+                      <span>ปี {cert.date}</span>
+                    </div>
+
+                    <div className="cert-actions">
+                      {cert.credentialUrl && (
+                        <a 
+                          href={cert.credentialUrl} 
+                          target="_blank" 
+                          rel="noreferrer" 
+                          className="cert-verify-link"
+                          title="Verify Credential"
+                        >
+                          <span>Verify</span>
+                          <ExternalLink size={13} />
+                        </a>
+                      )}
+                    </div>
+                  </div>
                 </div>
               </div>
             ))}
           </div>
         </div>
       </div>
+
+      {/* Lightbox for Certificates */}
+      {currentLightboxIndex !== null && certLightboxItems.length > 0 && (
+        <Lightbox
+          images={certLightboxItems}
+          currentIndex={currentLightboxIndex}
+          onClose={() => setCurrentLightboxIndex(null)}
+          onPrev={handlePrevCertImage}
+          onNext={handleNextCertImage}
+        />
+      )}
     </section>
   );
 }
