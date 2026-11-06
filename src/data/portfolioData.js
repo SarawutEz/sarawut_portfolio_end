@@ -101,6 +101,14 @@ export const projectsData = [
     description: "เว็บไซต์ในการดูคะเเนนของภาพยนตร์รายการโทรทัศน์เเละซีรีส์จากทั่วโลก",
     fullDescription: "เว็บไซต์ในการดูคะเเนนของภาพยนตร์ รายการโทรทัศน์เเละซีรีส์พร้อมทั้งมีเรื่อย่อให้อ่านเเละมีกลุ่มชุมชนได้พูดคุยเเรกเปลี่ยนความคิด",
     image: "/images/remedia.png",
+    images: [
+      "/images/remedia.png",
+      "/images/IOS.jpg",
+    ],
+    videos: [
+      // ตัวอย่าง: { type: "file", src: "/videos/demo.mp4", title: "วิดีโอตัวอย่าง" }
+      // ตัวอย่าง: { type: "youtube", src: "https://www.youtube.com/embed/VIDEO_ID", title: "YouTube Demo" }
+    ],
     tags: ["React", "Tailwind CSS", "UI/UX Design", "Vite", "Responsive Design"],
     liveUrl: "https://remediamt.netlify.app/",
     githubUrl: "https://github.com/SarawutEz/ReMedia.git",
@@ -118,6 +126,14 @@ export const projectsData = [
     description: "ระบบลงทะเบียนและจัดการกิจกรรมพร้อม QR Code และหน้าจัดการข้อมูลแบบ Real-time",
     fullDescription: "แพลตฟอร์มศูนย์รวมกิจกรรมและอีเวนต์สำหรับนักศึกษา ช่วยให้อาจารย์และชมรมสามารถสร้างอีเวนต์ จัดการตั๋ว ตรวจสอบรายชื่อผู้ลงทะเบียน และสแกน QR Code เข้างานได้สะดวกรวดเร็ว",
     image: "/images/Pixel_Heealth_Buddy.png",
+    images: [
+      "/images/Pixel_Heealth_Buddy.png",
+      "/images/IOS.jpg",
+    ],
+    videos: [
+      // ตัวอย่าง: { type: "file", src: "/videos/demo.mp4", title: "วิดีโอตัวอย่าง" }
+      // ตัวอย่าง: { type: "youtube", src: "https://www.youtube.com/embed/VIDEO_ID", title: "YouTube Demo" }
+    ],
     tags: ["Flutter", "Dart"],
     liveUrl: "https://canva.link/952mf257a0a4uiv",
     githubUrl: "https://github.com/SarawutEz",

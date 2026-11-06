@@ -1,0 +1,303 @@
+/* ===========================================================================
+   MediaCarousel Styles - รูปหลายรูปและวิดีโอ Carousel
+   =========================================================================== */
+
+.media-carousel {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  user-select: none;
+}
+
+.carousel-display {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--bg-tertiary);
+}
+
+/* --- Media Items --- */
+.carousel-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  animation: carouselFadeIn 0.5s ease-in-out;
+}
+
+@keyframes carouselFadeIn {
+  from {
+    opacity: 0.5;
+    transform: scale(1.03);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.carousel-video-wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #000;
+  animation: carouselFadeIn 0.5s ease-in-out;
+}
+
+.carousel-video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.carousel-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+
+/* --- Type Badge (รูปภาพ / วิดีโอ) --- */
+.carousel-type-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  border-radius: var(--border-radius-full);
+  background: rgba(9, 9, 11, 0.8);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(250, 204, 21, 0.3);
+  color: var(--accent-yellow);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  z-index: 5;
+  pointer-events: none;
+}
+
+[data-theme="light"] .carousel-type-badge {
+  background: rgba(255, 255, 255, 0.9);
+  border-color: rgba(202, 138, 4, 0.3);
+  color: var(--accent-yellow-dark, #b45309);
+}
+
+/* --- Navigation Arrows --- */
+.carousel-nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(9, 9, 11, 0.75);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid rgba(250, 204, 21, 0.4);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  z-index: 10;
+  opacity: 0;
+}
+
+.media-carousel:hover .carousel-nav-btn,
+.carousel-nav-btn:focus-visible {
+  opacity: 1;
+}
+
+.carousel-nav-prev {
+  left: 10px;
+}
+
+.carousel-nav-next {
+  right: 10px;
+}
+
+.carousel-nav-btn:hover {
+  background: var(--accent-yellow);
+  color: #09090b;
+  transform: translateY(-50%) scale(1.1);
+}
+
+.carousel-nav-btn:active {
+  transform: translateY(-50%) scale(0.95);
+}
+
+/* --- Counter Badge (1 / 3) --- */
+.carousel-counter {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  padding: 3px 10px;
+  border-radius: var(--border-radius-full);
+  background: rgba(9, 9, 11, 0.75);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  z-index: 5;
+  pointer-events: none;
+}
+
+[data-theme="light"] .carousel-counter {
+  background: rgba(255, 255, 255, 0.85);
+  color: var(--text-primary);
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+/* --- Dot Indicators --- */
+.carousel-dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 0 4px;
+}
+
+.carousel-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border-color);
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+  transition: all var(--transition-fast);
+}
+
+.carousel-dot:hover {
+  border-color: var(--accent-yellow);
+  transform: scale(1.2);
+}
+
+.carousel-dot.active {
+  background: var(--accent-yellow);
+  border-color: var(--accent-yellow);
+  transform: scale(1.15);
+  box-shadow: 0 0 8px rgba(250, 204, 21, 0.5);
+}
+
+/* วิดีโอ dot มีกรอบสี่เหลี่ยมมนเล็กน้อย */
+.carousel-dot.dot-video {
+  border-radius: 3px;
+  width: 10px;
+  height: 8px;
+}
+
+.carousel-dot.dot-video.active {
+  border-radius: 3px;
+}
+
+/* --- Project Card Media Count Badge --- */
+.project-media-count-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  border-radius: var(--border-radius-full);
+  background: rgba(9, 9, 11, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(250, 204, 21, 0.35);
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.4px;
+  z-index: 3;
+}
+
+/* --- Card Carousel Adjustments (บนการ์ดผลงานหน้าแรก) --- */
+.project-card-carousel {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.project-card-carousel .carousel-display {
+  width: 100%;
+  height: 100%;
+}
+
+.project-card-carousel .carousel-dots {
+  position: absolute;
+  bottom: 8px;
+  left: 0;
+  right: 0;
+  padding: 0;
+  z-index: 4;
+}
+
+.project-card-carousel .carousel-dot {
+  background: rgba(255, 255, 255, 0.4);
+  border-color: rgba(0, 0, 0, 0.3);
+}
+
+.project-card-carousel .carousel-dot.active {
+  background: var(--accent-yellow);
+  border-color: var(--accent-yellow);
+}
+
+/* --- Modal Carousel Adjustments --- */
+.modal-hero-img-box.has-carousel {
+  height: auto;
+  min-height: 220px;
+}
+
+.modal-hero-img-box.has-carousel .carousel-display {
+  height: 300px;
+}
+
+.modal-carousel .carousel-dots {
+  background: var(--bg-secondary);
+  padding: 8px 0;
+  margin: 0;
+}
+
+/* --- Mobile --- */
+@media (max-width: 640px) {
+  .carousel-nav-btn {
+    opacity: 1;
+    width: 32px;
+    height: 32px;
+  }
+
+  .carousel-nav-prev {
+    left: 6px;
+  }
+
+  .carousel-nav-next {
+    right: 6px;
+  }
+
+  .modal-hero-img-box.has-carousel .carousel-display {
+    height: 200px;
+  }
+
+  .carousel-dots {
+    gap: 5px;
+    padding: 8px 0 2px;
+  }
+
+  .carousel-dot {
+    width: 7px;
+    height: 7px;
+  }
+}

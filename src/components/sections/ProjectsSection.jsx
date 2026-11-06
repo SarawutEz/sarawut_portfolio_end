@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import SectionTitle from '../common/SectionTitle';
 import ProjectModal from '../common/ProjectModal';
+import MediaCarousel from '../common/MediaCarousel';
 import { Github } from '../common/BrandIcons';
 import { projectsData } from '../../data/portfolioData';
 import { FolderGit2, ExternalLink, Eye } from 'lucide-react';
@@ -11,6 +12,16 @@ const dynamicCategories = ["ทั้งหมด (All)", ...Array.from(new Set(
 export default function ProjectsSection() {
   const [activeCategory, setActiveCategory] = useState("ทั้งหมด (All)");
   const [selectedProject, setSelectedProject] = useState(null);
+  const [syncStep, setSyncStep] = useState(0);
+
+  // ตัวจับเวลาส่วนกลาง ให้การ์ดทุกใบเปลี่ยนรูปไปพร้อมกันตรงจังหวะ
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setSyncStep((prev) => prev + 1);
+    }, 4000); // ปรับเวลาเปลี่ยนรูปพร้อมกันทุกๆ 4 วินาที (แก้ตัวเลขได้)
+
+    return () => clearInterval(interval);
+  }, []);
 
   const filteredProjects = activeCategory === "ทั้งหมด (All)"
     ? projectsData
@@ -60,12 +71,13 @@ export default function ProjectsSection() {
               aria-label={`คลิกเพื่อดูรายละเอียด ${project.title}`}
             >
               <div className="project-img-box">
-                <img 
-                  src={project.image} 
-                  alt={project.title} 
-                  className="project-img" 
-                  loading="lazy"
-                  decoding="async"
+                {/* ส่ง syncStep เข้าไปเพื่อให้ทุกการ์ดเปลี่ยนรูปพร้อมกัน */}
+                <MediaCarousel
+                  images={project.images || [project.image]}
+                  videos={project.videos || []}
+                  image={project.image}
+                  syncStep={syncStep}
+                  className="project-card-carousel"
                 />
                 <span className="project-category-badge">
                   {project.category}
@@ -82,7 +94,7 @@ export default function ProjectsSection() {
 
                 <div className="project-tags">
                   {project.tags.slice(0, 4).map((tag, tIdx) => (
-                    <span key={tIdx} className="badge badge-cyan">{tag}</span>
+                    <span key={tag || tIdx} className="badge badge-cyan">{tag}</span>
                   ))}
                   {project.tags.length > 4 && (
                     <span className="badge">+{project.tags.length - 4}</span>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { X, ExternalLink, CheckCircle2, Layers, Sparkles, ChevronDown } from 'lucide-react';
 import { Github } from './BrandIcons';
+import MediaCarousel from './MediaCarousel';
 import '../../styles/modal.css';
 
 export default function ProjectModal({ project, onClose }) {
@@ -46,6 +47,12 @@ export default function ProjectModal({ project, onClose }) {
     setTouchEndY(null);
   };
 
+  // ดึง media data
+  const projectImages = project.images || (project.image ? [project.image] : []);
+  const projectVideos = project.videos || [];
+  const hasMedia = projectImages.length > 0 || projectVideos.length > 0;
+  const hasMultipleMedia = projectImages.length + projectVideos.length > 1;
+
   return (
     <div className="modal-overlay" onClick={onClose} role="presentation">
       <div 
@@ -79,9 +86,21 @@ export default function ProjectModal({ project, onClose }) {
           <X size={20} />
         </button>
 
-        <div className="modal-hero-img-box">
-          <img src={project.image} alt={project.title} className="modal-hero-img" decoding="async" />
-        </div>
+        {/* Media Area - Carousel or single image */}
+        {hasMedia ? (
+          <div className={`modal-hero-img-box ${hasMultipleMedia ? 'has-carousel' : ''}`}>
+            <MediaCarousel
+              images={projectImages}
+              videos={projectVideos}
+              image={project.image}
+              className="modal-carousel"
+            />
+          </div>
+        ) : (
+          <div className="modal-hero-img-box">
+            <img src={project.image} alt={project.title} className="modal-hero-img" decoding="async" />
+          </div>
+        )}
 
         <div className="modal-body">
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px', flexWrap: 'wrap' }}>
