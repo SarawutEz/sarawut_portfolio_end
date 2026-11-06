@@ -11,6 +11,7 @@ export default function EmployeeIdCard() {
   const startPos = useRef({ x: 0, y: 0 });
   const downPos = useRef({ x: 0, y: 0 });
   const isDown = useRef(false);
+  const isTouchScroll = useRef(false);
   const dragDist = useRef(0);
   const animRef = useRef(null);
   const lastFlipTime = useRef(0);
@@ -23,42 +24,83 @@ export default function EmployeeIdCard() {
     setIsFlipped((prev) => !prev);
   }, []);
 
-  /* ---------- Pointer handlers ---------- */
+  /* ---------- Pointer handlers (Mobile scroll friendly) ---------- */
   const handlePointerDown = useCallback((e) => {
     // Only primary mouse button or touch
     if (e.button !== undefined && e.button !== 0) return;
 
-    e.currentTarget.setPointerCapture(e.pointerId);
     isDown.current = true;
+    isTouchScroll.current = false;
     dragDist.current = 0;
     downPos.current = { x: e.clientX, y: e.clientY };
     startPos.current = { x: e.clientX - offset.x, y: e.clientY - offset.y };
-    setIsDragging(true);
+
+    // For mouse on desktop, capture pointer immediately.
+    // For touch on mobile, do NOT call setPointerCapture right away so vertical scrolling is smooth and unblocked!
+    if (e.pointerType !== 'touch') {
+      try {
+        e.currentTarget.setPointerCapture(e.pointerId);
+      } catch (_) {}
+      setIsDragging(true);
+    }
+
     if (animRef.current) cancelAnimationFrame(animRef.current);
   }, [offset]);
 
   const handlePointerMove = useCallback((e) => {
     if (!isDown.current) return;
-    const dx = e.clientX - startPos.current.x;
-    const dy = e.clientY - startPos.current.y;
 
+    const moveX = Math.abs(e.clientX - downPos.current.x);
+    const moveY = Math.abs(e.clientY - downPos.current.y);
     const moveDist = Math.hypot(e.clientX - downPos.current.x, e.clientY - downPos.current.y);
     dragDist.current = moveDist;
+
+    // Mobile scroll handling:
+    // If user is swiping vertically to scroll the page, cancel card drag and let the page scroll freely!
+    if (e.pointerType === 'touch') {
+      if (isTouchScroll.current) return;
+
+      if (moveY > moveX && moveY > 5) {
+        // Vertical swipe detected -> user is scrolling the webpage!
+        isTouchScroll.current = true;
+        isDown.current = false;
+        setIsDragging(false);
+        return;
+      }
+
+      // If user drags horizontally > 8px, engage card drag
+      if (moveX > 8 && !isDragging) {
+        try {
+          e.currentTarget.setPointerCapture(e.pointerId);
+        } catch (_) {}
+        setIsDragging(true);
+      }
+    }
+
+    if (isTouchScroll.current) return;
+
+    const dx = e.clientX - startPos.current.x;
+    const dy = e.clientY - startPos.current.y;
 
     setOffset({
       x: Math.max(-200, Math.min(200, dx)),
       y: Math.max(-60, Math.min(180, dy)),
     });
-  }, []);
+  }, [isDragging]);
 
   const handlePointerUp = useCallback((e) => {
-    if (!isDown.current) return;
+    if (!isDown.current && !isTouchScroll.current) return;
+    const wasTouchScroll = isTouchScroll.current;
     isDown.current = false;
+    isTouchScroll.current = false;
     setIsDragging(false);
-    try { e.currentTarget.releasePointerCapture(e.pointerId); } catch (_) {}
 
-    // If movement was small (< 8px), it's a click -> flip the whole card!
-    if (dragDist.current < 8) {
+    try {
+      e.currentTarget.releasePointerCapture(e.pointerId);
+    } catch (_) {}
+
+    // Only flip if it was NOT a page scroll and movement was small (< 8px)
+    if (!wasTouchScroll && dragDist.current < 8) {
       toggleFlip();
     }
 
@@ -74,6 +116,15 @@ export default function EmployeeIdCard() {
     };
     animRef.current = requestAnimationFrame(spring);
   }, [toggleFlip]);
+
+  const handlePointerCancel = useCallback((e) => {
+    isDown.current = false;
+    isTouchScroll.current = false;
+    setIsDragging(false);
+    try {
+      e.currentTarget.releasePointerCapture(e.pointerId);
+    } catch (_) {}
+  }, []);
 
   useEffect(() => () => { if (animRef.current) cancelAnimationFrame(animRef.current); }, []);
 
@@ -145,7 +196,7 @@ export default function EmployeeIdCard() {
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
-        onPointerCancel={handlePointerUp}
+        onPointerCancel={handlePointerCancel}
       >
         {/* ---- Dynamic SVG Lanyard ---- */}
         <svg

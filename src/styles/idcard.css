@@ -15,6 +15,7 @@
   perspective: 1200px;
   padding-top: 10px;
   overflow: visible;
+  z-index: 100;
 }
 
 /* ===== ONE unified draggable unit (SVG + Card) ===== */
@@ -22,7 +23,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  touch-action: none;
+  touch-action: pan-y; /* Allows smooth vertical webpage scrolling on mobile */
   user-select: none;
   -webkit-user-select: none;
   cursor: grab;
@@ -30,6 +31,7 @@
   overflow: visible;
   transform-style: preserve-3d;
   -webkit-transform-style: preserve-3d;
+  z-index: 100;
 }
 
 .id-card-unit:active {
@@ -49,7 +51,7 @@
   flex-shrink: 0;
   margin-bottom: -22px; /* overlap so the metal hook goes directly into the slot hole */
   position: relative;
-  z-index: 2;
+  z-index: 102;
 }
 
 /* ===== Transparent Plastic Sleeve (Entire Badge 3D Unit) ===== */
@@ -61,8 +63,9 @@
   -webkit-transform-style: preserve-3d;
   transition: transform 0.85s cubic-bezier(0.34, 1.25, 0.64, 1);
   user-select: none;
-  z-index: 1;
+  z-index: 100;
   cursor: pointer;
+  touch-action: pan-y;
 }
 
 /* ตอนหมุน หมุนไปทั้งหมด (Flip Whole Sleeve, Border, Slot & Card together) */
@@ -532,6 +535,13 @@
 @media (max-width: 640px) {
   .id-card-stage {
     max-width: 320px;
+    z-index: 100;
+  }
+
+  .id-card-unit,
+  .id-card-sleeve,
+  .id-sleeve-face {
+    touch-action: pan-y;
   }
 
   .id-card-sleeve,
