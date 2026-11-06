@@ -1,6 +1,6 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { personalData } from '../../data/portfolioData';
-import { ShieldCheck, Sparkles, QrCode, RotateCw } from 'lucide-react';
+import { ShieldCheck, Sparkles, QrCode } from 'lucide-react';
 import '../../styles/idcard.css';
 
 export default function EmployeeIdCard() {
@@ -13,10 +13,19 @@ export default function EmployeeIdCard() {
   const isDown = useRef(false);
   const dragDist = useRef(0);
   const animRef = useRef(null);
+  const lastFlipTime = useRef(0);
+
+  /* ---------- Flip Handler (Debounced for smooth 1-click flip) ---------- */
+  const toggleFlip = useCallback(() => {
+    const now = Date.now();
+    if (now - lastFlipTime.current < 350) return;
+    lastFlipTime.current = now;
+    setIsFlipped((prev) => !prev);
+  }, []);
 
   /* ---------- Pointer handlers ---------- */
   const handlePointerDown = useCallback((e) => {
-    // Only primary button
+    // Only primary mouse button or touch
     if (e.button !== undefined && e.button !== 0) return;
 
     e.currentTarget.setPointerCapture(e.pointerId);
@@ -48,9 +57,9 @@ export default function EmployeeIdCard() {
     setIsDragging(false);
     try { e.currentTarget.releasePointerCapture(e.pointerId); } catch (_) {}
 
-    // If movement was less than 8px, it is a click/tap -> FLIP THE CARD!
+    // If movement was small (< 8px), it's a click -> flip the whole card!
     if (dragDist.current < 8) {
-      setIsFlipped((prev) => !prev);
+      toggleFlip();
     }
 
     // Spring snap-back to center
@@ -64,12 +73,7 @@ export default function EmployeeIdCard() {
       });
     };
     animRef.current = requestAnimationFrame(spring);
-  }, []);
-
-  const handleManualFlip = useCallback((e) => {
-    e.stopPropagation();
-    setIsFlipped((prev) => !prev);
-  }, []);
+  }, [toggleFlip]);
 
   useEffect(() => () => { if (animRef.current) cancelAnimationFrame(animRef.current); }, []);
 
@@ -199,25 +203,26 @@ export default function EmployeeIdCard() {
           </g>
         </svg>
 
-        {/* ---- Card Sleeve ---- */}
+        {/* ---- Card Sleeve (Whole 3D Unit Flips Together) ---- */}
         <div
           className={`id-card-sleeve ${isFlipped ? 'flipped' : ''}`}
-          onClick={handleManualFlip}
+          onClick={toggleFlip}
           role="button"
           tabIndex={0}
-          onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') setIsFlipped((f) => !f); }}
-          title="คลิกเพื่อพลิกบัตร • ลากเพื่อดึง"
-          aria-label="คลิกเพื่อพลิกบัตรพนักงาน"
+          onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') toggleFlip(); }}
+          title="แตะหรือคลิกเพื่อหมุนดูด้านหน้า - ด้านหลังบัตร • ลากเพื่อดึง"
+          aria-label="คลิกเพื่อหมุนพลิกบัตรพนักงาน"
         >
-          <div className="id-sleeve-slot-container">
-            <div className="id-sleeve-slot"></div>
-          </div>
+          {/* ===================== FRONT SIDE ===================== */}
+          <div className="id-sleeve-face id-sleeve-front">
+            <div className="id-sleeve-slot-container">
+              <div className="id-sleeve-slot"></div>
+            </div>
 
-          <div className="id-sleeve-glare"></div>
+            <div className="id-sleeve-glare"></div>
 
-          <div className="id-card-inner">
-            {/* ===== FRONT ===== */}
-            <div className="id-card-face id-card-front">
+            <div className="id-card-inner-card id-card-front">
+              {/* Header บัตร */}
               <div className="id-card-header">
                 <div className="id-company-brand">
                   <div className="id-logo-icon"><ShieldCheck size={18} color="#09090b" /></div>
@@ -229,6 +234,7 @@ export default function EmployeeIdCard() {
                 <div className="id-chip-sim"></div>
               </div>
 
+              {/* Photo */}
               <div className="id-photo-container">
                 <div className="id-photo-ring">
                   <img src="/images/Sarwut_avatra.png" alt={personalData.name}
@@ -239,6 +245,7 @@ export default function EmployeeIdCard() {
                 </div>
               </div>
 
+              {/* Name & Position */}
               <div className="id-info-block">
                 <h3 className="id-name-th">{personalData.name}</h3>
                 <div className="id-name-en">{personalData.englishName}</div>
@@ -248,6 +255,7 @@ export default function EmployeeIdCard() {
                 </div>
               </div>
 
+              {/* Data Table */}
               <div className="id-data-table">
                 <div className="id-data-row">
                   <span className="id-data-label">ID NO.</span>
@@ -263,56 +271,64 @@ export default function EmployeeIdCard() {
                 </div>
               </div>
 
+              {/* Barcode */}
               <div className="id-barcode-container">
                 <div className="id-barcode-bars"></div>
                 <div className="id-barcode-num">SARAWUT // 0953371342</div>
               </div>
 
               <div className="id-flip-hint">
-                <span>🖱️ ดึงเพื่อขยับ • แตะเพื่อพลิก ↺</span>
+                <span>🖱️ ดึงเพื่อขยับ • แตะเพื่อพลิกดูด้านหลัง ↺</span>
               </div>
             </div>
+          </div>
 
-            {/* ===== BACK ===== */}
-            <div className="id-card-face id-card-back">
+          {/* ===================== BACK SIDE ===================== */}
+          <div className="id-sleeve-face id-sleeve-back">
+            <div className="id-sleeve-slot-container">
+              <div className="id-sleeve-slot"></div>
+            </div>
+
+            <div className="id-sleeve-glare"></div>
+
+            <div className="id-card-inner-card id-card-back">
+              {/* แถบแม่เหล็กสีดำ */}
               <div className="id-magstripe"></div>
+
+              {/* หัวข้อด้านหลัง */}
               <div className="id-back-header">
                 <div className="id-company-name-back">TERMS & CREDENTIALS</div>
                 <div className="id-back-sub">Verified Portfolio Identity</div>
               </div>
+
+              {/* QR Code เชื่อมต่อ GitHub */}
               <div className="id-back-qr-box">
                 <div className="id-qr-visual"><QrCode size={78} color="#09090b" /></div>
                 <div className="id-qr-label">SCAN TO CONNECT GITHUB</div>
               </div>
+
+              {/* เงื่อนไข & ช่องทางติดต่อ */}
               <div className="id-back-terms">
                 <p>• ผู้ถือบัตรเป็น Web Developer & UI/UX Designer ที่มีความมุ่งมั่นและพร้อมร่วมงาน</p>
                 <p>• ช่องทางติดต่อ: {personalData.phone}</p>
                 <p>• อีเมล: {personalData.email}</p>
               </div>
+
+              {/* ลายเซ็นดิจิทัล */}
               <div className="id-signature-area">
                 <div className="id-signature-line">
                   <span className="signature-font">Sarawut Wisetphon</span>
                 </div>
                 <div className="id-signature-title">Authorized Signature</div>
               </div>
+
               <div className="id-flip-hint">
-                <span>🖱️ ดึงเพื่อขยับ • แตะเพื่อพลิก ↺</span>
+                <span>🖱️ ดึงเพื่อขยับ • แตะเพื่อพลิกดูด้านหน้า ↺</span>
               </div>
             </div>
           </div>
         </div>
       </div>
-
-      {/* Dedicated Interactive Flip Button */}
-      <button
-        type="button"
-        className="id-flip-action-btn"
-        onClick={handleManualFlip}
-        title="คลิกเพื่อพลิกดูหน้า - หลังบัตร"
-      >
-        <RotateCw size={14} className={isFlipped ? 'spin-icon' : ''} />
-        <span>{isFlipped ? 'ดูด้านหน้าบัตร (Front Side)' : 'ดูด้านหลังบัตร (Back Side)'}</span>
-      </button>
     </div>
   );
 }
