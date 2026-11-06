@@ -2,10 +2,7 @@ import React from 'react';
 import {
   ArrowRight,
   FileDown,
-  Mail,
-  Layout,
-  Video,
-  Palette
+  Mail
 } from 'lucide-react';
 import { Github, Instagram, Facebook } from '../common/BrandIcons';
 import { personalData } from '../../data/portfolioData';
@@ -118,22 +115,6 @@ export default function HeroSection() {
         {/* Right Visual / Employee ID Card with Pendulum Swing Animation */}
         <div className="hero-visual reveal-on-scroll stagger-2">
           <EmployeeIdCard />
-
-          {/* Floating Tech Badges รอบๆ บัตร */}
-          <div className="floating-tech-pill pill-1">
-            <Palette size={16} color="var(--accent-yellow)" />
-            <span>UI/UX & Web Design</span>
-          </div>
-
-          <div className="floating-tech-pill pill-2">
-            <Video size={16} color="var(--accent-yellow)" />
-            <span>Video & Media Editor</span>
-          </div>
-
-          <div className="floating-tech-pill pill-3">
-            <Layout size={16} color="var(--accent-yellow)" />
-            <span>User-Centric Focus</span>
-          </div>
         </div>
       </div>
     </section>
