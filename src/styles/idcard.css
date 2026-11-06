@@ -1,0 +1,641 @@
+/* ==========================================================================
+   Employee ID Card with Physics Pendulum Swinging Animation
+   ========================================================================== */
+
+.id-card-stage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  max-width: 360px;
+  margin: 0 auto;
+  perspective: 1200px;
+  padding-top: 10px;
+}
+
+/* --- 1. Lanyard Ribbon (สายคล้องคอด้านบน) --- */
+.id-lanyard-strap {
+  position: relative;
+  width: 34px;
+  height: 55px;
+  background: linear-gradient(180deg, #18181b 0%, #27272a 100%);
+  border-left: 2px solid rgba(250, 204, 21, 0.4);
+  border-right: 2px solid rgba(250, 204, 21, 0.4);
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+  transform-origin: top center;
+  animation: lanyardStrapSway 5s ease-in-out infinite;
+  z-index: 5;
+}
+
+.id-lanyard-ribbon {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  color: var(--accent-yellow);
+  font-size: 7px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  opacity: 0.85;
+  white-space: nowrap;
+}
+
+/* --- 2. Metal Clip & Swivel Hook (ตัวหนีบโลหะ) --- */
+.id-clip-assembly {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: -2px;
+  z-index: 6;
+  transform-origin: top center;
+  animation: clipSway 5s ease-in-out infinite;
+}
+
+.id-clip-metal-loop {
+  width: 22px;
+  height: 9px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #71717a, #e4e4e7, #71717a);
+  border: 1px solid #52525b;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+.id-clip-connector {
+  width: 8px;
+  height: 8px;
+  background: linear-gradient(90deg, #52525b, #d4d4d8, #52525b);
+  border-radius: 2px;
+}
+
+.id-clip-metal-hook {
+  width: 14px;
+  height: 22px;
+  border: 2.5px solid #d4d4d8;
+  border-top: none;
+  border-radius: 0 0 7px 7px;
+  position: relative;
+  background: transparent;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+}
+
+.id-clip-metal-hook::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: -3px;
+  width: 6px;
+  height: 12px;
+  border-right: 2px solid #a1a1aa;
+  border-radius: 0 3px 3px 0;
+}
+
+/* --- 3. Pendulum Swing Wrapper (การแกว่งลูกตุ้มแบบสมจริง) --- */
+.id-card-pendulum-wrapper {
+  margin-top: -8px;
+  transform-origin: top center;
+  animation: cardPendulumSwing 5s ease-in-out infinite;
+  transition: transform 0.4s ease;
+  z-index: 4;
+}
+
+.id-card-stage:hover .id-card-pendulum-wrapper {
+  animation-play-state: paused;
+}
+
+/* --- 4. Transparent Plastic / Acrylic Sleeve (ซองใสใส่บัตร) --- */
+.id-card-sleeve {
+  width: 300px;
+  height: 485px;
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1.5px solid rgba(255, 255, 255, 0.25);
+  border-radius: 20px;
+  padding: 10px;
+  box-shadow: 
+    0 20px 45px rgba(0, 0, 0, 0.6),
+    0 0 25px rgba(250, 204, 21, 0.15),
+    inset 0 0 15px rgba(255, 255, 255, 0.05);
+  position: relative;
+  cursor: pointer;
+  perspective: 1000px;
+  user-select: none;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.id-card-sleeve:hover {
+  border-color: rgba(250, 204, 21, 0.6);
+  box-shadow: 
+    0 25px 55px rgba(0, 0, 0, 0.8),
+    0 0 35px rgba(250, 204, 21, 0.3);
+}
+
+/* รูเจาะบนซองใส */
+.id-sleeve-slot-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.id-sleeve-slot {
+  width: 44px;
+  height: 9px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+/* เงาสะท้อนแสงกระจกเงาด้านหน้าซอง */
+.id-sleeve-glare {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 18px;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.15) 0%,
+    rgba(255, 255, 255, 0.03) 40%,
+    transparent 60%
+  );
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* --- 5. 3D Card Inner (Card Flipping Structure) --- */
+.id-card-inner {
+  position: relative;
+  width: 100%;
+  height: calc(100% - 17px);
+  transform-style: preserve-3d;
+  transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.id-card-sleeve.flipped .id-card-inner {
+  transform: rotateY(180deg);
+}
+
+/* Card Faces */
+.id-card-face {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: 14px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ==========================================================================
+   FRONT SIDE DESIGN (สไตล์โมเดิร์น Yellow & Dark)
+   ========================================================================== */
+.id-card-front {
+  background: #ffffff;
+  color: #09090b;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 16px 14px 12px;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
+}
+
+/* Header บัตร */
+.id-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 2px solid #09090b;
+  padding-bottom: 10px;
+  margin-bottom: 12px;
+}
+
+.id-company-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.id-logo-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: var(--accent-yellow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.id-company-text {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.id-company-name {
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  color: #09090b;
+  line-height: 1.1;
+}
+
+.id-company-tagline {
+  font-size: 0.58rem;
+  font-weight: 600;
+  color: #71717a;
+  letter-spacing: 0.8px;
+}
+
+/* SIM Chip Hologram */
+.id-chip-sim {
+  width: 26px;
+  height: 20px;
+  border-radius: 4px;
+  background: linear-gradient(135deg, #d97706, #fde047, #d97706);
+  border: 1px solid #b45309;
+  position: relative;
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.6);
+}
+
+.id-chip-sim::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: #b45309;
+}
+
+/* Employee Photo */
+.id-photo-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.id-photo-ring {
+  width: 105px;
+  height: 105px;
+  border-radius: 50%;
+  padding: 3px;
+  background: linear-gradient(135deg, var(--accent-yellow), #09090b);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
+  overflow: hidden;
+}
+
+.id-photo-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  background: #f4f4f5;
+  display: block;
+}
+
+.id-status-indicator {
+  position: absolute;
+  bottom: -4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: #09090b;
+  color: #ffffff;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  border: 1.5px solid #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.id-status-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 6px #10b981;
+}
+
+/* Name & Position */
+.id-info-block {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.id-name-th {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #09090b;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.id-name-en {
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: #52525b;
+  letter-spacing: 0.4px;
+  margin-bottom: 6px;
+}
+
+.id-role-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: #09090b;
+  color: #ffffff;
+  font-size: 0.68rem;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 999px;
+  letter-spacing: 0.3px;
+}
+
+/* Data Table */
+.id-data-table {
+  background: #f4f4f5;
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-size: 0.68rem;
+  text-align: left;
+}
+
+.id-data-row {
+  display: flex;
+  align-items: center;
+}
+
+.id-data-label {
+  font-weight: 700;
+  color: #71717a;
+  width: 58px;
+  letter-spacing: 0.5px;
+}
+
+.id-data-value {
+  font-weight: 600;
+  color: #09090b;
+}
+
+.id-data-value.highlight {
+  color: #b45309;
+  font-weight: 700;
+}
+
+/* Barcode */
+.id-barcode-container {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.id-barcode-bars {
+  width: 85%;
+  height: 24px;
+  background: repeating-linear-gradient(
+    90deg,
+    #09090b 0,
+    #09090b 2px,
+    transparent 2px,
+    transparent 3px,
+    #09090b 3px,
+    #09090b 5px,
+    transparent 5px,
+    transparent 8px,
+    #09090b 8px,
+    #09090b 9px,
+    transparent 9px,
+    transparent 11px
+  );
+}
+
+.id-barcode-num {
+  font-size: 0.62rem;
+  letter-spacing: 1.5px;
+  font-family: monospace;
+  font-weight: 700;
+  color: #52525b;
+}
+
+.id-flip-hint {
+  font-size: 0.62rem;
+  color: #a1a1aa;
+  text-align: center;
+  margin-top: 4px;
+  font-weight: 500;
+}
+
+/* ==========================================================================
+   BACK SIDE DESIGN (ด้านหลังบัตร - แม่เหล็ก, QR Code, ลายเซ็น)
+   ========================================================================== */
+.id-card-back {
+  background: #ffffff;
+  color: #09090b;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 0 0 12px 0;
+  transform: rotateY(180deg);
+}
+
+/* แถบแม่เหล็กสีดำด้านบน */
+.id-magstripe {
+  width: 100%;
+  height: 38px;
+  background: #18181b;
+  margin-top: 14px;
+  margin-bottom: 12px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.id-back-header {
+  text-align: center;
+  padding: 0 16px;
+  margin-bottom: 8px;
+}
+
+.id-company-name-back {
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: #09090b;
+  letter-spacing: 0.5px;
+}
+
+.id-back-sub {
+  font-size: 0.6rem;
+  color: #71717a;
+  font-weight: 500;
+}
+
+/* QR Code Section */
+.id-back-qr-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin: 6px 0;
+}
+
+.id-qr-visual {
+  padding: 6px;
+  background: #ffffff;
+  border: 1.5px solid #09090b;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.id-qr-label {
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  color: #52525b;
+}
+
+/* Terms */
+.id-back-terms {
+  padding: 8px 16px;
+  font-size: 0.62rem;
+  line-height: 1.45;
+  color: #52525b;
+  text-align: left;
+}
+
+.id-back-terms p {
+  margin: 2px 0;
+}
+
+/* Signature */
+.id-signature-area {
+  margin-top: auto;
+  padding: 0 16px;
+  text-align: center;
+}
+
+.id-signature-line {
+  border-bottom: 1.5px solid #09090b;
+  padding-bottom: 2px;
+  margin-bottom: 3px;
+}
+
+.signature-font {
+  font-family: 'Brush Script MT', 'Dancing Script', cursive, sans-serif;
+  font-size: 1.25rem;
+  color: #09090b;
+  font-weight: 700;
+}
+
+.id-signature-title {
+  font-size: 0.58rem;
+  color: #71717a;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ==========================================================================
+   PHYSICS SWING KEYFRAMES (การเคลื่อนไหวแกว่งแบบลูกตุ้มฟิสิกส์)
+   ========================================================================== */
+
+/* การแกว่งของตัวบัตร */
+@keyframes cardPendulumSwing {
+  0% {
+    transform: rotate(0deg);
+  }
+  20% {
+    transform: rotate(4.5deg) translateX(4px);
+  }
+  40% {
+    transform: rotate(-3.5deg) translateX(-3px);
+  }
+  60% {
+    transform: rotate(2deg) translateX(2px);
+  }
+  80% {
+    transform: rotate(-1.5deg) translateX(-1px);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+/* การเอียงของสายคล้อง */
+@keyframes lanyardStrapSway {
+  0% {
+    transform: rotate(0deg);
+  }
+  20% {
+    transform: rotate(2deg);
+  }
+  40% {
+    transform: rotate(-1.8deg);
+  }
+  60% {
+    transform: rotate(1deg);
+  }
+  80% {
+    transform: rotate(-0.8deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+/* การเอียงของห่วงเหล็ก */
+@keyframes clipSway {
+  0% {
+    transform: rotate(0deg);
+  }
+  20% {
+    transform: rotate(3deg);
+  }
+  40% {
+    transform: rotate(-2.5deg);
+  }
+  60% {
+    transform: rotate(1.5deg);
+  }
+  80% {
+    transform: rotate(-1deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+/* Responsive on Mobile */
+@media (max-width: 640px) {
+  .id-card-sleeve {
+    width: 275px;
+    height: 450px;
+    padding: 8px;
+  }
+  
+  .id-photo-ring {
+    width: 90px;
+    height: 90px;
+  }
+
+  .id-name-th {
+    font-size: 0.98rem;
+  }
+
+  .id-barcode-bars {
+    height: 20px;
+  }
+}

@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 import { Github, Instagram, Facebook } from '../common/BrandIcons';
 import { personalData } from '../../data/portfolioData';
+import EmployeeIdCard from '../common/EmployeeIdCard';
 import '../../styles/hero.css';
 
 export default function HeroSection() {
@@ -71,7 +72,6 @@ export default function HeroSection() {
           </div>
 
           <div className="hero-socials-wrapper">
-          
             <div className="hero-socials">
               <a
                 href={personalData.github}
@@ -115,33 +115,24 @@ export default function HeroSection() {
           </div>
         </div>
 
-        {/* Right Visual / Profile Card */}
+        {/* Right Visual / Employee ID Card with Pendulum Swing Animation */}
         <div className="hero-visual reveal-on-scroll stagger-2">
-          <div className="hero-card-container">
-            <div className="hero-avatar-wrapper">
-              <img
-                src="\images\Sarwut_avatra.png"
-                alt={personalData.name}
-                className="hero-avatar-img"
-                loading="eager"
-              />
-            </div>
+          <EmployeeIdCard />
 
-            {/* Floating Tech Badges */}
-            <div className="floating-tech-pill pill-1">
-              <Palette size={16} color="var(--accent-yellow)" />
-              <span>UI/UX & Web Design</span>
-            </div>
+          {/* Floating Tech Badges รอบๆ บัตร */}
+          <div className="floating-tech-pill pill-1">
+            <Palette size={16} color="var(--accent-yellow)" />
+            <span>UI/UX & Web Design</span>
+          </div>
 
-            <div className="floating-tech-pill pill-2">
-              <Video size={16} color="var(--accent-yellow)" />
-              <span>Video & Media Editor</span>
-            </div>
+          <div className="floating-tech-pill pill-2">
+            <Video size={16} color="var(--accent-yellow)" />
+            <span>Video & Media Editor</span>
+          </div>
 
-            <div className="floating-tech-pill pill-3">
-              <Layout size={16} color="var(--accent-yellow)" />
-              <span>User-Centric Focus</span>
-            </div>
+          <div className="floating-tech-pill pill-3">
+            <Layout size={16} color="var(--accent-yellow)" />
+            <span>User-Centric Focus</span>
           </div>
         </div>
       </div>
