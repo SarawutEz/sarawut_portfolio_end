@@ -86,7 +86,7 @@ export default function AboutSection() {
         <div className="interests-container reveal-on-scroll">
           <h3 className="skills-category-title" style={{ marginBottom: '20px' }}>
             <Lightbulb size={22} color="var(--accent-yellow)" />
-            <span>💡 ความสนใจหลัก (Interests)</span>
+            <span>ความสนใจหลัก (Interests)</span>
           </h3>
 
           <div className="interests-grid">
@@ -109,7 +109,7 @@ export default function AboutSection() {
         <div className="skills-container reveal-on-scroll">
           <h3 className="skills-category-title" style={{ marginBottom: '20px' }}>
             <Sparkles size={22} color="var(--accent-yellow)" />
-            <span>⚡ ทักษะความสามารถ (Skills)</span>
+            <span>ทักษะความสามารถ (Skills)</span>
           </h3>
 
           <div className="skills-grid">
