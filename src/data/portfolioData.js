@@ -122,8 +122,8 @@ export const projectsData = [
     id: 2,
     title: "Pixel Heealth Buddy",
     category: "Application",
-    description: "ระบบลงทะเบียนและจัดการกิจกรรมพร้อม QR Code และหน้าจัดการข้อมูลแบบ Real-time",
-    fullDescription: "แพลตฟอร์มศูนย์รวมกิจกรรมและอีเวนต์สำหรับนักศึกษา ช่วยให้อาจารย์และชมรมสามารถสร้างอีเวนต์ จัดการตั๋ว ตรวจสอบรายชื่อผู้ลงทะเบียน และสแกน QR Code เข้างานได้สะดวกรวดเร็ว",
+    description: "แอปพลิเคชันดูเเลสุขภาพ",
+    fullDescription: "เเอปเพื่อสุขภาพที่ใช้ตัวละคร Pixel เป็นตัวเเทนของผู้ใช้สามารถสเเกนแคลอรี่จากรูปภาพอาหารโดยการใช้ Google Giminig Api เเละยังสามารถบันทึกการดื่มน้ำการเดินในเเต่ละวันพร้อมการเก็บประวัติดูย้อนหลัง",
     image: "/images/Pixel_Heealth_Buddy.png",
     images: [
       "/images/Pixel_Heealth_Buddy.png",
@@ -132,15 +132,15 @@ export const projectsData = [
       // ตัวอย่าง: { type: "file", src: "/videos/demo.mp4", title: "วิดีโอตัวอย่าง" }
       // ตัวอย่าง: { type: "youtube", src: "https://www.youtube.com/embed/VIDEO_ID", title: "YouTube Demo" }
     ],
-    tags: ["Flutter", "Dart"],
+    tags: ["Flutter", "Dart", "Firebase", "Ai"],
     liveUrl: "https://canva.link/952mf257a0a4uiv",
     githubUrl: "https://github.com/SarawutEz",
     featured: true,
     highlights: [
-      "ระบบออกบัตร E-Ticket พร้อม QR Code อัตโนมัติ",
-      "Dashboard สำหรับ Organizer ดูยอดผู้เข้าร่วมงานแบบสดๆ",
-      "ระบบส่งอีเมลยืนยันการลงทะเบียนพร้อมไฟล์ PDF",
-      "รองรับการค้นหาและฟิลเตอร์กิจกรรมตามหมวดหมู่และวันที่"
+      "ตัวละคร Pixel เเทนตัวผู้ใช้",
+      "Ai คำนวนสารอาหารเเละแคลอรี่ภาพรูปถ่าย",
+      "การบันทึกการดื่ม",
+      "การดูประวัติย้อนหลังการกิน การดื่ม การเดิน"
     ]
   },
 ];
@@ -259,7 +259,7 @@ export const resumeData = {
       issuer: "On-site training",
       date: "2026",
       credentialUrl: "",
-      image: "/images/c_link.jpg", 
+      image: "/images/c_link.jpg",
       description: "ใบประกาศนียบัตรวิชาชีพด้านระบบสายสัญญาณโครงสร้างพื้นฐานที่จัดโดย บริษัท อินเตอร์ลิ้งค์ คอมมิวนิเคชั่น จำกัด (มหาชน) เพื่อพัฒนาทักษะความรู้ความเข้าใจเกี่ยวกับระบบเครือข่ายคอมพิวเตอร์"
     },
     {
