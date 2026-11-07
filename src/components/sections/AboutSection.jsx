@@ -167,7 +167,7 @@ export default function AboutSection() {
           <div className="glass-card about-block-card reveal-on-scroll">
             <h4 className="skill-group-title" style={{ marginBottom: '14px' }}>
               <HeartHandshake size={20} color="var(--accent-yellow)" />
-              <span>🤝 ทักษะการทำงานและ Soft Skills</span>
+              <span>ทักษะการทำงานและ Soft Skills</span>
             </h4>
             <div className="soft-skills-wrapper">
               {skillsData.softSkills.map((item, idx) => (
