@@ -103,7 +103,6 @@ export const projectsData = [
     image: "/images/remedia.png",
     images: [
       "/images/remedia.png",
-      "/images/IOS.jpg",
     ],
     videos: [
       // ตัวอย่าง: { type: "file", src: "/videos/demo.mp4", title: "วิดีโอตัวอย่าง" }
@@ -128,7 +127,6 @@ export const projectsData = [
     image: "/images/Pixel_Heealth_Buddy.png",
     images: [
       "/images/Pixel_Heealth_Buddy.png",
-      "/images/IOS.jpg",
     ],
     videos: [
       // ตัวอย่าง: { type: "file", src: "/videos/demo.mp4", title: "วิดีโอตัวอย่าง" }
