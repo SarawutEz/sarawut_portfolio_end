@@ -113,6 +113,30 @@ export default function MediaCarousel({
     touchEndX.current = null;
   };
 
+  const getEmbedUrl = (media) => {
+    if (media.type === 'youtube') {
+      const src = media.src;
+      // รองรับทั้งลิงก์ watch?v=..., youtu.be/..., shorts/..., embed/... รวมถึงเคสที่มี &t=...
+      const match = src.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?.*v=|shorts\/|embed\/))([a-zA-Z0-9_-]{11})/);
+      if (match) {
+        return `https://www.youtube-nocookie.com/embed/${match[1]}`;
+      }
+      return src;
+    }
+    if (media.type === 'tiktok') {
+      const src = media.src;
+      // ถ้าเป็น player url อยู่แล้ว
+      if (src.includes('tiktok.com/player/v1/')) return src;
+      // ดึง Video ID จาก tiktok url เช่น https://www.tiktok.com/@user/video/7614775454737681684
+      const match = src.match(/video\/(\d+)/);
+      if (match) {
+        return `https://www.tiktok.com/player/v1/${match[1]}?autoplay=0`;
+      }
+      return src;
+    }
+    return media.src;
+  };
+
   const renderMedia = () => {
     if (currentMedia.type === 'image') {
       return (
@@ -127,14 +151,15 @@ export default function MediaCarousel({
       );
     }
 
-    if (currentMedia.type === 'youtube') {
+    if (currentMedia.type === 'youtube' || currentMedia.type === 'tiktok') {
+      const embedSrc = getEmbedUrl(currentMedia);
       return (
         <div className="carousel-video-wrapper" onClick={(e) => e.stopPropagation()}>
           <iframe
-            src={currentMedia.src}
-            title={currentMedia.title || `Video ${currentIndex + 1}`}
+            src={embedSrc}
+            title={currentMedia.title || `${currentMedia.type} Video ${currentIndex + 1}`}
             className="carousel-media carousel-iframe"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowFullScreen
             loading="lazy"
           />
@@ -176,15 +201,6 @@ export default function MediaCarousel({
       {/* Media Content */}
       <div className="carousel-display">
         {renderMedia()}
-
-        {/* Type Indicator Badge */}
-        <div className="carousel-type-badge">
-          {currentMedia.type === 'image' ? (
-            <><ImageIcon size={12} /> <span>รูปภาพ</span></>
-          ) : (
-            <><Play size={12} /> <span>วิดีโอ</span></>
-          )}
-        </div>
 
         {/* Nav Arrows (only if multiple) */}
         {hasMultiple && (

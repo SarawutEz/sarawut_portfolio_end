@@ -102,19 +102,6 @@ export default function ProjectsSection() {
                 </div>
 
                 <div className="project-actions">
-                  <button 
-                    className="btn btn-secondary btn-sm project-view-details-btn"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setSelectedProject(project);
-                    }}
-                    type="button"
-                    aria-label={`ดูรายละเอียด ${project.title}`}
-                  >
-                    <Eye size={15} />
-                    <span>ดูรายละเอียด</span>
-                  </button>
-
                   <div className="project-links" onClick={(e) => e.stopPropagation()}>
                     {project.liveUrl && (
                       <a 

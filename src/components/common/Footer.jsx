@@ -36,11 +36,6 @@ export default function Footer() {
               {personalData.title} • Crafting clean, scalable, and responsive software.
             </p>
           </div>
-
-          <button onClick={scrollToTop} className="footer-back-to-top" aria-label="Back to Top">
-            <span>กลับสู่ด้านบน (Back to Top)</span>
-            <ArrowUp size={16} />
-          </button>
         </div>
 
         <div className="footer-bottom">
