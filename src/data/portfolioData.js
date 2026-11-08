@@ -131,7 +131,7 @@ export const projectsData = [
     videos: [
       // ตัวอย่าง: { type: "file", src: "/videos/demo.mp4", title: "วิดีโอตัวอย่าง" }
       // ตัวอย่าง: { type: "youtube", src: "https://www.youtube.com/embed/VIDEO_ID", title: "YouTube Demo" }
-      {type: "tiktok", src: "https://www.tiktok.com/@luciano.o_o/video/7614775454737681684", title: "Tiktok"} 
+      //{type: "tiktok", src: "https://www.tiktok.com/@luciano.o_o/video/7614775454737681684", title: "Tiktok"} 
     ],
     tags: ["Flutter", "Dart", "Firebase", "Ai"],
     liveUrl: "https://drive.google.com/file/d/1nXVvG_BvieF6N2uIfoKAWOcoGg5Qf7Fu/view?usp=drive_link",
