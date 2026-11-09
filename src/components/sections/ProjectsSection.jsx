@@ -238,7 +238,7 @@ export default function ProjectsSection() {
               วิดีโอผลงาน <span className="gradient-text">& Media Projects</span>
             </h3>
             <p className="subsection-description">
-              รวมคลิปวิดีโอสาธิตระบบ (Demo), วิดีโอคอนเทนต์สั้นบน TikTok และผลงานตัดต่อมัลติมีเดีย
+              รวมคลิปวิดีโอคอนเทนต์สั้นบน TikTok และผลงานตัดต่อมัลติมีเดีย
             </p>
           </div>
 

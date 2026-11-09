@@ -129,7 +129,7 @@ export const projectsData = [
       "/images/Pixel_Heealth_Buddy.png",
     ],
     videos: [
-      { type: "tiktok", src: "https://www.tiktok.com/@luciano.o_o/video/7614775454737681684", title: "Pixel Health Buddy - TikTok Demo" }
+      //{ type: "tiktok", src: "https://www.tiktok.com/@luciano.o_o/video/7614775454737681684", title: "Pixel Health Buddy - TikTok Demo" }
     ],
     tags: ["Flutter", "Dart", "Firebase", "Ai"],
     liveUrl: "https://drive.google.com/file/d/1nXVvG_BvieF6N2uIfoKAWOcoGg5Qf7Fu/view?usp=drive_link",

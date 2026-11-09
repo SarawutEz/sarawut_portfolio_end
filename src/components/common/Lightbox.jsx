@@ -81,14 +81,16 @@ export default function Lightbox({ images, currentIndex, onClose, onPrev, onNext
         aria-modal="true"
       >
         <div className="lightbox-img-wrapper">
-          <button 
-            className="lightbox-nav-btn lightbox-nav-prev" 
+          {images.length > 1 && (
+            <button 
+              className="lightbox-nav-btn lightbox-nav-prev" 
             onClick={onPrev}
             aria-label="รูปก่อนหน้า (Previous Image)"
             type="button"
           >
-            <ChevronLeft size={26} />
-          </button>
+            <ChevronLeft size={24} />
+            </button>
+          )}
 
           <img 
             src={currentItem.image} 
@@ -96,14 +98,16 @@ export default function Lightbox({ images, currentIndex, onClose, onPrev, onNext
             className="lightbox-img" 
           />
 
-          <button 
-            className="lightbox-nav-btn lightbox-nav-next" 
+          {images.length > 1 && (
+            <button 
+              className="lightbox-nav-btn lightbox-nav-next" 
             onClick={onNext}
             aria-label="รูปถัดไป (Next Image)"
             type="button"
           >
-            <ChevronRight size={26} />
-          </button>
+            <ChevronRight size={24} />
+            </button>
+          )}
         </div>
 
         <div className="lightbox-caption-box">
@@ -115,12 +119,20 @@ export default function Lightbox({ images, currentIndex, onClose, onPrev, onNext
               {currentItem.caption}
             </div>
           )}
-          <div className="lightbox-caption-meta">
-            <Calendar size={13} />
-            <span>{currentItem.date}</span>
-            <span>•</span>
-            <span>({currentIndex + 1} / {images.length})</span>
-          </div>
+          {(currentItem.date || images.length > 1) && (
+            <div className="lightbox-caption-meta">
+              {currentItem.date && (
+                <>
+                  <Calendar size={13} />
+                  <span>{currentItem.date}</span>
+                </>
+              )}
+              {currentItem.date && images.length > 1 && <span>•</span>}
+              {images.length > 1 && (
+                <span>({currentIndex + 1} / {images.length})</span>
+              )}
+            </div>
+          )}
 
           <button 
             type="button"

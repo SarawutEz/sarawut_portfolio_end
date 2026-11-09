@@ -21,7 +21,8 @@ export default function MediaCarousel({
   autoPlay = true,
   autoPlayInterval = 5000,
   syncStep = null,
-  videosFirst = false
+  videosFirst = false,
+  onImageClick = null
 }) {
   // รวม media ทั้งหมดเข้าด้วยกัน (กรองค่าว่างออกเพื่อความเสถียร)
   const allMedia = [];
@@ -159,6 +160,13 @@ export default function MediaCarousel({
           className="carousel-media carousel-img"
           loading="lazy"
           decoding="async"
+          style={onImageClick ? { cursor: 'zoom-in' } : undefined}
+          onClick={(e) => {
+            if (onImageClick) {
+              e.stopPropagation();
+              onImageClick(currentIndex);
+            }
+          }}
         />
       );
     }

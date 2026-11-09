@@ -2,11 +2,13 @@ import React, { useEffect, useState, useRef } from 'react';
 import { X, ExternalLink, CheckCircle2, Layers, Sparkles, ChevronDown } from 'lucide-react';
 import { Github } from './BrandIcons';
 import MediaCarousel from './MediaCarousel';
+import Lightbox from './Lightbox';
 import '../../styles/modal.css';
 
 export default function ProjectModal({ project, onClose }) {
   const [touchStartY, setTouchStartY] = useState(null);
   const [touchEndY, setTouchEndY] = useState(null);
+  const [lightboxIndex, setLightboxIndex] = useState(null);
   const contentRef = useRef(null);
 
   useEffect(() => {
@@ -54,6 +56,9 @@ export default function ProjectModal({ project, onClose }) {
     : (project.videoUrl ? [{ type: project.platform || 'file', src: project.videoUrl, title: project.title }] : []);
   const hasMedia = projectImages.length > 0 || projectVideos.length > 0;
   const hasMultipleMedia = projectImages.length + projectVideos.length > 1;
+  const isTikTok = project.platform === 'tiktok' || 
+    project.videoUrl?.includes('tiktok') || 
+    projectVideos.some((v) => v.type === 'tiktok' || v.src?.includes('tiktok'));
 
   return (
     <div className="modal-overlay" onClick={onClose} role="presentation">
@@ -90,19 +95,27 @@ export default function ProjectModal({ project, onClose }) {
 
         {/* Media Area - Carousel หรือ Video Player */}
         {hasMedia ? (
-          <div className={`modal-hero-img-box ${hasMultipleMedia ? 'has-carousel' : ''}`}>
+          <div className={`modal-hero-img-box ${hasMultipleMedia ? 'has-carousel' : ''} ${isTikTok ? 'modal-hero-tiktok' : ''}`}>
             <MediaCarousel
               images={projectImages}
               videos={projectVideos}
               image={project.image}
               className="modal-carousel"
               videosFirst={Boolean(project.platform || project.videosFirst || projectVideos.length > 0)}
+              onImageClick={(idx) => setLightboxIndex(idx)}
             />
           </div>
         ) : (
           project.image && (
-            <div className="modal-hero-img-box">
-              <img src={project.image} alt={project.title} className="modal-hero-img" decoding="async" />
+            <div className={`modal-hero-img-box ${isTikTok ? 'modal-hero-tiktok' : ''}`}>
+              <img 
+                src={project.image} 
+                alt={project.title} 
+                className="modal-hero-img" 
+                decoding="async" 
+                style={{ cursor: 'zoom-in' }}
+                onClick={() => setLightboxIndex(0)}
+              />
             </div>
           )
         )}
@@ -183,6 +196,17 @@ export default function ProjectModal({ project, onClose }) {
           </div>
         </div>
       </div>
+
+      {/* Lightbox ขยายดูภาพเต็ม 100% คมชัดเต็มจอเมื่อคลิกที่รูป */}
+      {lightboxIndex !== null && projectImages.length > 0 && (
+        <Lightbox
+          images={projectImages.map((src) => ({ image: src, title: project.title }))}
+          currentIndex={lightboxIndex}
+          onClose={() => setLightboxIndex(null)}
+          onPrev={() => setLightboxIndex((prev) => (prev === 0 ? projectImages.length - 1 : prev - 1))}
+          onNext={() => setLightboxIndex((prev) => (prev === projectImages.length - 1 ? 0 : prev + 1))}
+        />
+      )}
     </div>
   );
 }
