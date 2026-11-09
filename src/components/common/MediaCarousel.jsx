@@ -5,9 +5,9 @@ import '../../styles/carousel.css';
 /**
  * MediaCarousel - แสดงรูปภาพหลายรูปและวิดีโอใน carousel
  * รองรับ:
- * - images: array ของ URL รูปภาพ
+ * - images: array ของ URL รูปภาพ (สามารถเป็นค่าว่าง [] ได้)
  * - videos: array ของ { type: "file"|"youtube"|"tiktok", src: string, title?: string }
- * - image: string (fallback รูปเดี่ยว)
+ * - image: string (fallback รูปเดี่ยว, สามารถเป็น null/undefined ได้)
  * - autoPlay: boolean (เลื่อนสลับอัตโนมัติ)
  * - autoPlayInterval: number (ความเร็วในการสลับ ms)
  * - syncStep: number (ถ้าส่งเข้ามา จะเปลี่ยนรูปพร้อมกันตาม step กลาง)
@@ -23,14 +23,16 @@ export default function MediaCarousel({
   syncStep = null,
   videosFirst = false
 }) {
-  // รวม media ทั้งหมดเข้าด้วยกัน
+  // รวม media ทั้งหมดเข้าด้วยกัน (กรองค่าว่างออกเพื่อความเสถียร)
   const allMedia = [];
 
-  const imgList = images.length > 0 ? images : (image ? [image] : []);
+  const imgList = (images.length > 0 ? images : (image ? [image] : [])).filter(Boolean);
 
   if (videosFirst && videos.length > 0) {
     videos.forEach((v) => {
-      allMedia.push({ type: v.type || 'file', src: v.src, title: v.title || '' });
+      if (v?.src) {
+        allMedia.push({ type: v.type || 'file', src: v.src, title: v.title || '' });
+      }
     });
     imgList.forEach((src) => {
       allMedia.push({ type: 'image', src });
@@ -40,7 +42,9 @@ export default function MediaCarousel({
       allMedia.push({ type: 'image', src });
     });
     videos.forEach((v) => {
-      allMedia.push({ type: v.type || 'file', src: v.src, title: v.title || '' });
+      if (v?.src) {
+        allMedia.push({ type: v.type || 'file', src: v.src, title: v.title || '' });
+      }
     });
   }
 
@@ -125,20 +129,17 @@ export default function MediaCarousel({
   };
 
   const getEmbedUrl = (media) => {
-    if (media.type === 'youtube') {
+    if (media.type === 'youtube' || media.src?.includes('youtu')) {
       const src = media.src;
-      // รองรับทั้งลิงก์ watch?v=..., youtu.be/..., shorts/..., embed/... รวมถึงเคสที่มี &t=...
       const match = src.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?.*v=|shorts\/|embed\/))([a-zA-Z0-9_-]{11})/);
       if (match) {
-        return `https://www.youtube-nocookie.com/embed/${match[1]}`;
+        return `https://www.youtube-nocookie.com/embed/${match[1]}?autoplay=0&rel=0`;
       }
       return src;
     }
-    if (media.type === 'tiktok') {
+    if (media.type === 'tiktok' || media.src?.includes('tiktok.com')) {
       const src = media.src;
-      // ถ้าเป็น player url อยู่แล้ว
       if (src.includes('tiktok.com/player/v1/')) return src;
-      // ดึง Video ID จาก tiktok url เช่น https://www.tiktok.com/@user/video/7614775454737681684
       const match = src.match(/video\/(\d+)/);
       if (match) {
         return `https://www.tiktok.com/player/v1/${match[1]}?autoplay=0`;
@@ -162,7 +163,7 @@ export default function MediaCarousel({
       );
     }
 
-    if (currentMedia.type === 'youtube' || currentMedia.type === 'tiktok') {
+    if (currentMedia.type === 'youtube' || currentMedia.type === 'tiktok' || currentMedia.src?.includes('youtu') || currentMedia.src?.includes('tiktok')) {
       const embedSrc = getEmbedUrl(currentMedia);
       return (
         <div className="carousel-video-wrapper" onClick={(e) => e.stopPropagation()}>

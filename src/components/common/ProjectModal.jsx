@@ -47,9 +47,11 @@ export default function ProjectModal({ project, onClose }) {
     setTouchEndY(null);
   };
 
-  // ดึง media data
-  const projectImages = project.images || (project.image ? [project.image] : []);
-  const projectVideos = project.videos || [];
+  // ดึง media data (รองรับกรณีใส่เฉพาะวิดีโอโดยไม่ต้องมีรูปภาพ)
+  const projectImages = (project.images || (project.image ? [project.image] : [])).filter(Boolean);
+  const projectVideos = project.videos && project.videos.length > 0
+    ? project.videos
+    : (project.videoUrl ? [{ type: project.platform || 'file', src: project.videoUrl, title: project.title }] : []);
   const hasMedia = projectImages.length > 0 || projectVideos.length > 0;
   const hasMultipleMedia = projectImages.length + projectVideos.length > 1;
 
@@ -86,7 +88,7 @@ export default function ProjectModal({ project, onClose }) {
           <X size={20} />
         </button>
 
-        {/* Media Area - Carousel or single image */}
+        {/* Media Area - Carousel หรือ Video Player */}
         {hasMedia ? (
           <div className={`modal-hero-img-box ${hasMultipleMedia ? 'has-carousel' : ''}`}>
             <MediaCarousel
@@ -94,13 +96,15 @@ export default function ProjectModal({ project, onClose }) {
               videos={projectVideos}
               image={project.image}
               className="modal-carousel"
-              videosFirst={Boolean(project.platform || project.videosFirst || (project.videos && project.videos.length > 0))}
+              videosFirst={Boolean(project.platform || project.videosFirst || projectVideos.length > 0)}
             />
           </div>
         ) : (
-          <div className="modal-hero-img-box">
-            <img src={project.image} alt={project.title} className="modal-hero-img" decoding="async" />
-          </div>
+          project.image && (
+            <div className="modal-hero-img-box">
+              <img src={project.image} alt={project.title} className="modal-hero-img" decoding="async" />
+            </div>
+          )
         )}
 
         <div className="modal-body">
@@ -130,17 +134,19 @@ export default function ProjectModal({ project, onClose }) {
             </div>
           )}
 
-          <div style={{ marginBottom: '24px' }}>
-            <h4 className="modal-section-title">
-              <Layers size={18} color="var(--accent-yellow)" />
-              <span>Tech Stack & Libraries</span>
-            </h4>
-            <div className="modal-tags">
-              {project.tags.map((tag, idx) => (
-                <span key={idx} className="badge badge-cyan">{tag}</span>
-              ))}
+          {project.tags && project.tags.length > 0 && (
+            <div style={{ marginBottom: '24px' }}>
+              <h4 className="modal-section-title">
+                <Layers size={18} color="var(--accent-yellow)" />
+                <span>Tech Stack & Libraries</span>
+              </h4>
+              <div className="modal-tags">
+                {project.tags.map((tag, idx) => (
+                  <span key={idx} className="badge badge-cyan">{tag}</span>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
 
           <div className="modal-footer-actions">
             {project.liveUrl && (

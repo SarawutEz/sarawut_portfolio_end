@@ -113,11 +113,13 @@
   transform: scale(1.08);
 }
 
+/* Card Overlay Hints */
 .project-card-overlay-hint {
   position: absolute;
   inset: 0;
-  background: rgba(9, 9, 11, 0.6);
+  background: rgba(9, 9, 11, 0.65);
   backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -132,8 +134,44 @@
   z-index: 4;
 }
 
-.project-card:hover .project-card-overlay-hint {
+/* การ์ดโปรเจกต์ปกติ: ชี้แล้วแสดงข้อความ */
+.project-card:not(.video-card):hover .project-card-overlay-hint {
   opacity: 1;
+}
+
+/* Video Card Overlays (Pure CSS - ไม่มีบัคชี้แล้วหายแน่นอน) */
+.video-overlay-hint {
+  position: absolute;
+  inset: 0;
+  background: rgba(9, 9, 11, 0.65);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: var(--accent-yellow);
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.22s ease-in-out;
+  z-index: 4;
+}
+
+/* 1. เมื่อชี้ด้านบน (บริเวณคลิป / หน้าปก) -> แสดง "คลิกเล่นคลิปทันที" */
+.video-img-box:hover .video-play-hint {
+  opacity: 1;
+}
+
+/* 2. เมื่อชี้ด้านล่าง (บริเวณเนื้อหา / รายละเอียด) -> แสดง "คลิกดูรายละเอียด" */
+.video-card:has(.clickable-details-area:hover) .video-details-hint {
+  opacity: 1;
+}
+
+.video-card:has(.clickable-details-area:hover) .video-play-hint {
+  opacity: 0;
 }
 
 .project-category-badge {
@@ -167,6 +205,7 @@
   margin-bottom: 8px;
   line-height: 1.35;
   letter-spacing: -0.2px;
+  transition: color var(--transition-fast);
 }
 
 .project-desc {
@@ -192,6 +231,10 @@
   gap: 12px;
   padding-top: 14px;
   border-top: 1px solid var(--border-color);
+}
+
+.video-card .project-actions {
+  justify-content: flex-start;
 }
 
 .project-links {
@@ -325,6 +368,16 @@
 
 .video-img-box {
   height: 220px;
+  cursor: pointer;
+}
+
+.video-poster-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* Play Badge in center of video card */
@@ -339,7 +392,7 @@
 }
 
 .video-card:hover .video-center-play-badge {
-  transform: translate(-50%, -50%) scale(1.12);
+  transform: translate(-50%, -50%) scale(1.15);
   opacity: 0.15;
 }
 
@@ -396,6 +449,76 @@
   backdrop-filter: blur(8px);
 }
 
+/* Active Inline Player */
+.video-player-active {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #000;
+}
+
+.video-embedded-iframe,
+.video-embedded-player {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+  object-fit: contain;
+}
+
+.video-close-inline-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 10;
+  background: rgba(9, 9, 11, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  border-radius: var(--border-radius-full);
+  padding: 4px 10px;
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  transition: all var(--transition-fast);
+}
+
+.video-close-inline-btn:hover {
+  background: #ef4444;
+  border-color: #ef4444;
+  color: #fff;
+}
+
+.video-placeholder-notice {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  font-size: 0.88rem;
+  padding: 20px;
+  text-align: center;
+}
+
+/* Clickable Details Area */
+.clickable-details-area {
+  cursor: pointer;
+  user-select: none;
+  transition: background var(--transition-fast);
+}
+
+.clickable-details-area:hover .project-title {
+  color: var(--accent-yellow);
+}
+
+.video-card:has(.clickable-details-area:hover) {
+  border-color: var(--accent-yellow);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4), 0 0 25px rgba(250, 204, 21, 0.15);
+}
+
 .video-category-label {
   font-size: 0.74rem;
   font-weight: 500;
@@ -403,27 +526,6 @@
   text-transform: uppercase;
   letter-spacing: 0.6px;
   margin-bottom: 6px;
-}
-
-.btn-view-details {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 14px;
-  font-size: 0.82rem;
-  font-weight: 400;
-  border-radius: var(--border-radius-full);
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  color: var(--text-secondary);
-  cursor: pointer;
-  transition: all var(--transition-fast);
-}
-
-.btn-view-details:hover {
-  color: var(--accent-yellow);
-  border-color: var(--accent-yellow);
-  background: var(--bg-card-hover);
 }
 
 /* Light Theme Overrides */
@@ -437,6 +539,12 @@
   background: rgba(255, 255, 255, 0.9);
   border-color: rgba(0, 0, 0, 0.1);
   color: #18181b;
+}
+
+[data-theme="light"] .video-close-inline-btn {
+  background: rgba(255, 255, 255, 0.92);
+  color: #18181b;
+  border-color: rgba(0, 0, 0, 0.15);
 }
 
 [data-theme="light"] .play-icon-glow {
