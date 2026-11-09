@@ -6,11 +6,12 @@ import '../../styles/carousel.css';
  * MediaCarousel - แสดงรูปภาพหลายรูปและวิดีโอใน carousel
  * รองรับ:
  * - images: array ของ URL รูปภาพ
- * - videos: array ของ { type: "file"|"youtube", src: string, title?: string }
+ * - videos: array ของ { type: "file"|"youtube"|"tiktok", src: string, title?: string }
  * - image: string (fallback รูปเดี่ยว)
  * - autoPlay: boolean (เลื่อนสลับอัตโนมัติ)
  * - autoPlayInterval: number (ความเร็วในการสลับ ms)
  * - syncStep: number (ถ้าส่งเข้ามา จะเปลี่ยนรูปพร้อมกันตาม step กลาง)
+ * - videosFirst: boolean (ถ้า true จะเอาวิดีโอขึ้นก่อนรูปภาพ)
  */
 export default function MediaCarousel({ 
   images = [], 
@@ -19,19 +20,29 @@ export default function MediaCarousel({
   className = '',
   autoPlay = true,
   autoPlayInterval = 5000,
-  syncStep = null
+  syncStep = null,
+  videosFirst = false
 }) {
-  // รวม media ทั้งหมดเข้าด้วยกัน (รูปก่อน แล้วค่อยวิดีโอ)
+  // รวม media ทั้งหมดเข้าด้วยกัน
   const allMedia = [];
 
   const imgList = images.length > 0 ? images : (image ? [image] : []);
-  imgList.forEach((src) => {
-    allMedia.push({ type: 'image', src });
-  });
 
-  videos.forEach((v) => {
-    allMedia.push({ type: v.type || 'file', src: v.src, title: v.title || '' });
-  });
+  if (videosFirst && videos.length > 0) {
+    videos.forEach((v) => {
+      allMedia.push({ type: v.type || 'file', src: v.src, title: v.title || '' });
+    });
+    imgList.forEach((src) => {
+      allMedia.push({ type: 'image', src });
+    });
+  } else {
+    imgList.forEach((src) => {
+      allMedia.push({ type: 'image', src });
+    });
+    videos.forEach((v) => {
+      allMedia.push({ type: v.type || 'file', src: v.src, title: v.title || '' });
+    });
+  }
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
@@ -53,7 +64,7 @@ export default function MediaCarousel({
   useEffect(() => {
     setCurrentIndex(0);
     setIsVideoPlaying(false);
-  }, [images, videos, image]);
+  }, [images, videos, image, videosFirst]);
 
   const goToPrev = useCallback((e) => {
     e?.stopPropagation();

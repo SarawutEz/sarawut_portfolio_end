@@ -131,7 +131,7 @@ export const projectsData = [
     videos: [
       // ตัวอย่าง: { type: "file", src: "/videos/demo.mp4", title: "วิดีโอตัวอย่าง" }
       // ตัวอย่าง: { type: "youtube", src: "https://www.youtube.com/embed/VIDEO_ID", title: "YouTube Demo" }
-      //{type: "tiktok", src: "https://www.tiktok.com/@luciano.o_o/video/7614775454737681684", title: "Tiktok"} 
+      //{ type: "tiktok", src: "https://www.tiktok.com/@luciano.o_o/video/7614775454737681684", title: "Pixel Health Buddy - TikTok Showcase" }
     ],
     tags: ["Flutter", "Dart", "Firebase", "Ai"],
     liveUrl: "https://drive.google.com/file/d/1nXVvG_BvieF6N2uIfoKAWOcoGg5Qf7Fu/view?usp=drive_link",
@@ -142,6 +142,73 @@ export const projectsData = [
       "Ai คำนวนสารอาหารเเละแคลอรี่ภาพรูปถ่าย",
       "การบันทึกการดื่ม",
       "การดูประวัติย้อนหลังการกิน การดื่ม การเดิน"
+    ]
+  },
+];
+
+/**
+ * ==============================================================================
+ * VIDEO PROJECTS DATA (ข้อมูลผลงานวิดีโอ & Multimedia Showcase - หัวข้อรอง)
+ * รองรับทั้งวิดีโอ TikTok, YouTube, ไฟล์วิดีโอ MP4 และ Showreel นำเสนอผลงาน
+ * ==============================================================================
+ */
+export const videoProjectsData = [
+  {
+    id: "video-1",
+    title: "Pixel Health Buddy - Feature Showcase",
+    category: "TikTok / Mobile App",
+    platform: "tiktok",
+    duration: "Short-form",
+    description: "วิดีโอสาธิตการใช้งานแอปพลิเคชัน Pixel Health Buddy สแกนแคลอรี่จากรูปภาพอาหารด้วย AI พร้อมระบบบันทึกสุขภาพประจำวัน",
+    fullDescription: "วิดีโอคลิปสาธิตฟังก์ชันหลักของแอปพลิเคชันสุขภาพ Pixel Health Buddy ที่พัฒนาด้วย Flutter และผสาน Google Gemini AI นำเสนอผ่านรูปแบบ Short-form Video ที่กระชับ สนุก เข้าใจง่าย และสื่อสารการทำงานของแอปได้อย่างชัดเจน",
+    image: "/images/Pixel_Heealth_Buddy.png",
+    images: ["/images/Pixel_Heealth_Buddy.png"],
+    videos: [
+      {
+        type: "tiktok",
+        src: "https://www.tiktok.com/@luciano.o_o/video/7614775454737681684",
+        title: "Pixel Health Buddy - TikTok Showcase"
+      }
+    ],
+    videoUrl: "https://www.tiktok.com/@luciano.o_o/video/7614775454737681684",
+    embedUrl: "https://www.tiktok.com/player/v1/7614775454737681684?autoplay=0",
+    tags: ["TikTok", "Mobile App", "AI Health", "Flutter", "CapCut", "Video Content"],
+    externalUrl: "https://www.tiktok.com/@luciano.o_o/video/7614775454737681684",
+    liveUrl: "https://drive.google.com/file/d/1nXVvG_BvieF6N2uIfoKAWOcoGg5Qf7Fu/view?usp=drive_link",
+    highlights: [
+      "สาธิตการใช้ Google Gemini AI สแกนวิเคราะห์แคลอรี่อาหาร",
+      "จำลอง UI การบันทึกการดื่มน้ำและการก้าวเดินในแต่ละวัน",
+      "เทคนิคการตัดต่อ Short-form ให้กระชับ สดใส สไตล์ Pixel Art",
+      "การออกแบบ Interaction และ User Experience"
+    ]
+  },
+  {
+    id: "video-2",
+    title: "Web ReMedia - System & UI/UX Walkthrough",
+    category: "YouTube / Web Platform",
+    platform: "youtube",
+    duration: "Short-form",
+    description: "วิดีโอแนะนำและสาธิตการใช้งานเว็บไซต์ดูคะแนนรีวิวภาพยนตร์และซีรีส์ Web ReMedia พร้อมการออกแบบ Responsive",
+    fullDescription: "วิดีโอนำเสนอภาพรวมการพัฒนาและการใช้งานระบบเว็บไซต์ Web ReMedia แสดงหน้าจอค้นหาภาพยนตร์ การดูข้อมูลเรื่องย่อ คะแนนรีวิว และฟังก์ชันชุมชนพูดคุยแลกเปลี่ยนความคิดเห็น",
+    image: "/images/remedia.png",
+    images: ["/images/remedia.png"],
+    videos: [
+      {
+        type: "youtube",
+        src: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        title: "Web ReMedia Walkthrough"
+      }
+    ],
+    videoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    embedUrl: "https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ",
+    tags: ["YouTube", "Web Application", "React", "UI/UX Design", "Screen Recording", "Walkthrough"],
+    externalUrl: "https://remediamt.netlify.app/",
+    liveUrl: "https://remediamt.netlify.app/",
+    githubUrl: "https://github.com/SarawutEz/ReMedia.git",
+    highlights: [
+      "บันทึกและตัดต่อวิดีโอแนะนำ Interface การใช้งาน",
+      "ทดสอบระบบค้นหาภาพยนตร์และซีรีส์แบบ Real-time",
+      "สาธิตระบบ Theme Switcher (Dark / Light Mode)"
     ]
   },
 ];

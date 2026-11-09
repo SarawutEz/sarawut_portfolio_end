@@ -3,8 +3,8 @@ import SectionTitle from '../common/SectionTitle';
 import ProjectModal from '../common/ProjectModal';
 import MediaCarousel from '../common/MediaCarousel';
 import { Github } from '../common/BrandIcons';
-import { projectsData } from '../../data/portfolioData';
-import { FolderGit2, ExternalLink, Eye } from 'lucide-react';
+import { projectsData, videoProjectsData } from '../../data/portfolioData';
+import { FolderGit2, ExternalLink, Eye, Video, Film, Play, Sparkles } from 'lucide-react';
 import '../../styles/projects.css';
 
 const dynamicCategories = ["ทั้งหมด (All)", ...Array.from(new Set(projectsData.map(p => p.category).filter(Boolean)))];
@@ -134,6 +134,130 @@ export default function ProjectsSection() {
               </div>
             </div>
           ))}
+        </div>
+
+        {/* ========================================================= */}
+        {/* หัวข้อรอง (Sub-section): Video & Multimedia Projects */}
+        {/* ========================================================= */}
+        <div id="video-projects" className="projects-subsection reveal-on-scroll">
+          <div className="subsection-divider">
+            <span className="divider-line"></span>
+            <span className="divider-icon" aria-hidden="true">
+              <Video size={18} />
+            </span>
+            <span className="divider-line"></span>
+          </div>
+
+          <div className="subsection-header">
+            <div className="section-tag subsection-tag">
+              <Film size={14} />
+              <span>Video Showcase</span>
+            </div>
+            <h3 className="subsection-title">
+              วิดีโอผลงาน <span className="gradient-text">& Media Projects</span>
+            </h3>
+            <p className="subsection-description">
+              รวมคลิปวิดีโอสาธิตระบบ (Demo), วิดีโอคอนเทนต์สั้นบน TikTok และผลงานตัดต่อมัลติมีเดีย
+            </p>
+          </div>
+
+          <div className="video-projects-grid">
+            {videoProjectsData.map((video, idx) => (
+              <div 
+                key={video.id} 
+                className={`glass-card project-card video-card clickable-card reveal-on-scroll stagger-${(idx % 3) + 1}`}
+                onClick={() => setSelectedProject(video)}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    setSelectedProject(video);
+                  }
+                }}
+                aria-label={`คลิกเพื่อดูรายละเอียด ${video.title}`}
+              >
+                {/* Video Media Box */}
+                <div className="project-img-box video-img-box">
+                  <img 
+                    src={video.image} 
+                    alt={video.title} 
+                    className="project-img video-img"
+                    loading="lazy" 
+                  />
+
+                  {/* Play Indicator Badge */}
+                  <div className="video-center-play-badge" aria-hidden="true">
+                    <div className="play-icon-glow">
+                      <Play size={22} className="play-icon" />
+                    </div>
+                  </div>
+
+                  {/* Top Badges */}
+                  <div className="video-card-top-badges">
+                    <span className="project-category-badge video-platform-badge">
+                      {video.platform === 'tiktok' ? 'TikTok' : video.platform === 'youtube' ? 'YouTube' : 'Showreel'}
+                    </span>
+                    {video.duration && (
+                      <span className="video-duration-badge">
+                        <Play size={10} />
+                        <span>{video.duration}</span>
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Overlay Hint on Hover */}
+                  <div className="project-card-overlay-hint">
+                    <Eye size={18} />
+                    <span>คลิกดูรายละเอียด</span>
+                  </div>
+                </div>
+
+                {/* Video Card Content */}
+                <div className="project-content video-content">
+                  <span className="video-category-label">{video.category}</span>
+                  <h3 className="project-title">{video.title}</h3>
+                  <p className="project-desc">{video.description}</p>
+
+                  <div className="project-tags">
+                    {video.tags.slice(0, 4).map((tag, tIdx) => (
+                      <span key={tag || tIdx} className="badge badge-cyan">{tag}</span>
+                    ))}
+                    {video.tags.length > 4 && (
+                      <span className="badge">+{video.tags.length - 4}</span>
+                    )}
+                  </div>
+
+                  <div className="project-actions">
+                    <button
+                      className="btn-view-details"
+                      onClick={() => setSelectedProject(video)}
+                      type="button"
+                    >
+                      <Eye size={15} />
+                      <span>ดูรายละเอียด</span>
+                    </button>
+
+                    <div className="project-links" onClick={(e) => e.stopPropagation()}>
+                      {video.externalUrl && (
+                        <a
+                          href={video.externalUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="project-link-btn"
+                          title={`เปิดดูบน ${video.platform === 'tiktok' ? 'TikTok' : video.platform === 'youtube' ? 'YouTube' : 'ลิงก์ภายนอก'}`}
+                          aria-label={`เปิดดูบน ${video.platform}`}
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <ExternalLink size={16} />
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 

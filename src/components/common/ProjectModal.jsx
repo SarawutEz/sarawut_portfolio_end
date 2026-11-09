@@ -94,6 +94,7 @@ export default function ProjectModal({ project, onClose }) {
               videos={projectVideos}
               image={project.image}
               className="modal-carousel"
+              videosFirst={Boolean(project.platform || project.videosFirst || (project.videos && project.videos.length > 0))}
             />
           </div>
         ) : (
