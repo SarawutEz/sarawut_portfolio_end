@@ -10,7 +10,12 @@ export default function Lightbox({ images, currentIndex, onClose, onPrev, onNext
 
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if (e.key === 'Escape') onClose();
+      if (e.key === 'Escape') {
+        if (document.activeElement && typeof document.activeElement.blur === 'function') {
+          document.activeElement.blur();
+        }
+        onClose();
+      }
       if (e.key === 'ArrowLeft') onPrev();
       if (e.key === 'ArrowRight') onNext();
     };

@@ -86,9 +86,9 @@
   box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4), 0 0 25px rgba(250, 204, 21, 0.15);
 }
 
+.project-card:focus,
 .project-card:focus-visible {
-  outline: 2px solid var(--accent-yellow);
-  outline-offset: 3px;
+  outline: none;
 }
 
 .project-card:active {

@@ -105,6 +105,9 @@ export default function ProjectsSection() {
     : projectsData.filter(item => item.category === activeCategory);
 
   const handleOpenDetails = (item, idx = 0) => {
+    if (document.activeElement && typeof document.activeElement.blur === 'function') {
+      document.activeElement.blur();
+    }
     const video = normalizeVideoItem(item, idx);
     setSelectedProject(video);
   };
@@ -423,7 +426,12 @@ export default function ProjectsSection() {
       {selectedProject && (
         <ProjectModal 
           project={selectedProject} 
-          onClose={() => setSelectedProject(null)} 
+          onClose={() => {
+          setSelectedProject(null);
+          if (document.activeElement && typeof document.activeElement.blur === 'function') {
+            document.activeElement.blur();
+          }
+        }} 
         />
       )}
     </section>

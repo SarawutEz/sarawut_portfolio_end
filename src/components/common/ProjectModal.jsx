@@ -13,13 +13,21 @@ export default function ProjectModal({ project, onClose }) {
 
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if (e.key === 'Escape') onClose();
+      if (e.key === 'Escape') {
+        if (document.activeElement && typeof document.activeElement.blur === 'function') {
+          document.activeElement.blur();
+        }
+        onClose();
+      }
     };
     document.body.classList.add('scroll-lock');
     window.addEventListener('keydown', handleKeyDown);
     return () => {
       document.body.classList.remove('scroll-lock');
       window.removeEventListener('keydown', handleKeyDown);
+      if (document.activeElement && typeof document.activeElement.blur === 'function') {
+        document.activeElement.blur();
+      }
     };
   }, [onClose]);
 
@@ -82,16 +90,6 @@ export default function ProjectModal({ project, onClose }) {
         >
           <div className="modal-drag-pill"></div>
         </div>
-
-        {/* Top Floating Close Button */}
-        <button 
-          className="modal-close-btn" 
-          onClick={onClose} 
-          aria-label="ปิดหน้าต่าง (Close modal)" 
-          type="button"
-        >
-          <X size={20} />
-        </button>
 
         {/* Media Area - Carousel หรือ Video Player */}
         {hasMedia ? (
