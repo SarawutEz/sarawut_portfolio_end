@@ -130,12 +130,12 @@ export default function EmployeeIdCard() {
 
   /* ========== SVG Lanyard Geometry ========== */
   const svgW = 300;
-  const svgH = 180;
+  const svgH = 175;
   const cx = svgW / 2; // 150
 
   // Top anchor — stays fixed on screen by compensating for drag offset
   const anchorX = cx - offset.x;
-  const anchorY = 5 - offset.y;
+  const anchorY = -2 - offset.y;
 
   // Bottom — where ribbon meets clip, fixed relative to card
   const clipH = 55;
