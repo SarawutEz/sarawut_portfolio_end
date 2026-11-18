@@ -230,6 +230,7 @@ export default function MediaCarousel({
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; fullscreen; gyroscope; picture-in-picture; web-share"
             allowFullScreen
             loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
           />
         </div>
       );

@@ -4,7 +4,7 @@ import ProjectModal from '../common/ProjectModal';
 import MediaCarousel from '../common/MediaCarousel';
 import { Github } from '../common/BrandIcons';
 import { projectsData, videoProjectsData } from '../../data/portfolioData';
-import { FolderGit2, ExternalLink, Eye, Video, Film, Play, X } from 'lucide-react';
+import { FolderGit2, ExternalLink, Eye, Video, Film, Play } from 'lucide-react';
 import '../../styles/projects.css';
 
 const dynamicCategories = ["ทั้งหมด (All)", ...Array.from(new Set(projectsData.map(p => p.category).filter(Boolean)))];
@@ -25,7 +25,7 @@ const getVideoEmbedUrl = (video, autoplay = true) => {
   if (platform === 'tiktok') {
     const match = src.match(/video\/(\d+)/);
     const videoId = match ? match[1] : (src.includes('player/v1/') ? src.split('player/v1/')[1]?.split('?')[0] : '');
-    return videoId ? `https://www.tiktok.com/player/v1/${videoId}` : src;
+    return videoId ? `https://www.tiktok.com/player/v1/${videoId}?autoplay=${autoplay ? 1 : 0}` : src;
   }
   if (platform === 'youtube') {
     const match = src.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?.*v=|shorts\/|embed\/))([a-zA-Z0-9_-]{11})/);
@@ -88,7 +88,6 @@ const normalizeVideoItem = (raw = {}, idx = 0) => {
 export default function ProjectsSection() {
   const [activeCategory, setActiveCategory] = useState("ทั้งหมด (All)");
   const [selectedProject, setSelectedProject] = useState(null);
-  const [activePlayingId, setActivePlayingId] = useState(null);
   const [syncStep, setSyncStep] = useState(0);
 
   // ตัวจับเวลาส่วนกลาง ให้การ์ดทุกใบเปลี่ยนรูปไปพร้อมกันตรงจังหวะ
@@ -249,77 +248,19 @@ export default function ProjectsSection() {
             {videoProjectsData.map((rawVideo, idx) => {
               const video = normalizeVideoItem(rawVideo, idx);
               const thumbnail = getVideoThumbnail(video);
-              const isPlaying = activePlayingId === video.id;
-              const hasVideo = Boolean(video.videoUrl || (video.videos && video.videos.length > 0));
 
               return (
                 <div 
                   key={video.id} 
                   className={`glass-card project-card video-card reveal-on-scroll stagger-${(idx % 3) + 1}`}
                 >
-                  {/* 1. ด้านบนที่เป็นคลิป - เล่นคลิปทันที หรือมีภาพหน้าปกอัตโนมัติ */}
+                  {/* 1. ด้านบนที่เป็นคลิป - กดเพื่อเปิดลิงก์ไปยังแพลตฟอร์มโดยตรง */}
                   <div className="project-img-box video-img-box">
-                    {isPlaying || (!thumbnail && hasVideo) ? (
-                      <div className="video-player-active" onClick={(e) => e.stopPropagation()}>
-                        {video.platform === 'tiktok' || video.videoUrl?.includes('tiktok') ? (
-                          <iframe
-                            src={getVideoEmbedUrl(video, isPlaying)}
-                            title={video.title}
-                            className="video-embedded-iframe"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; fullscreen; gyroscope; picture-in-picture; web-share"
-                            allowFullScreen
-                            loading="lazy"
-                          />
-                        ) : video.platform === 'youtube' || video.videoUrl?.includes('youtu') ? (
-                          <iframe
-                            src={getVideoEmbedUrl(video, isPlaying)}
-                            title={video.title}
-                            className="video-embedded-iframe"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; fullscreen; gyroscope; picture-in-picture; web-share"
-                            allowFullScreen
-                            loading="lazy"
-                          />
-                        ) : video.videoUrl || video.videos?.[0]?.src ? (
-                          <video
-                            src={video.videoUrl || video.videos?.[0]?.src}
-                            controls
-                            autoPlay={isPlaying}
-                            preload="metadata"
-                            className="video-embedded-player"
-                          >
-                            เบราว์เซอร์ไม่รองรับการเล่นวิดีโอ
-                          </video>
-                        ) : (
-                          <div className="video-placeholder-notice">
-                            <p>ไม่มีไฟล์คลิปสำหรับเล่นโดยตรง</p>
-                          </div>
-                        )}
-                        {isPlaying && (
-                          <button
-                            className="video-close-inline-btn"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setActivePlayingId(null);
-                            }}
-                            title="ปิดคลิปและกลับสู่ภาพหน้าปก"
-                            type="button"
-                            aria-label="ปิดคลิป"
-                          >
-                            <X size={15} />
-                            <span>ปิดคลิป</span>
-                          </button>
-                        )}
-                      </div>
-                    ) : (
                       <div 
                         className="video-poster-wrapper"
                         onClick={(e) => {
                           e.stopPropagation();
-                          if (video.platform === 'tiktok' || video.videoUrl?.includes('tiktok')) {
-                            window.open(video.externalUrl || video.videoUrl, '_blank', 'noopener,noreferrer');
-                          } else {
-                            setActivePlayingId(video.id);
-                          }
+                          window.open(video.externalUrl || video.videoUrl, '_blank', 'noopener,noreferrer');
                         }}
                         role="button"
                         tabIndex={0}
@@ -327,22 +268,28 @@ export default function ProjectsSection() {
                           if (e.key === 'Enter' || e.key === ' ') {
                             e.preventDefault();
                             e.stopPropagation();
-                            if (video.platform === 'tiktok' || video.videoUrl?.includes('tiktok')) {
-                              window.open(video.externalUrl || video.videoUrl, '_blank', 'noopener,noreferrer');
-                            } else {
-                              setActivePlayingId(video.id);
-                            }
+                            window.open(video.externalUrl || video.videoUrl, '_blank', 'noopener,noreferrer');
                           }
                         }}
-                        title={video.platform === 'tiktok' ? "คลิกเพื่อเปิดดูบน TikTok" : "กดที่นี่เพื่อเล่นคลิปทันที"}
-                        aria-label={`กดที่นี่เพื่อเปิดดูคลิป ${video.title}`}
+                        title={`คลิกเพื่อเปิดดูบน ${video.platform === 'tiktok' ? 'TikTok' : video.platform === 'youtube' ? 'YouTube' : 'ลิงก์ภายนอก'}`}
+                        aria-label={`เปิดดูคลิป ${video.title} บน ${video.platform === 'tiktok' ? 'TikTok' : video.platform === 'youtube' ? 'YouTube' : 'ลิงก์ภายนอก'}`}
                       >
-                        <img 
-                          src={thumbnail} 
-                          alt={video.title} 
-                          className="project-img video-img"
-                          loading="lazy" 
-                        />
+                        {thumbnail ? (
+                          <img 
+                            src={thumbnail} 
+                            alt={video.title} 
+                            className="project-img video-img"
+                            loading="lazy" 
+                          />
+                        ) : (
+                          <div className="video-fallback-poster">
+                            <div className="video-fallback-bg"></div>
+                            <div className="video-fallback-content">
+                              <span className="video-fallback-platform">{video.platform === 'tiktok' ? 'TikTok' : 'Video'}</span>
+                              <p className="video-fallback-title">{video.title}</p>
+                            </div>
+                          </div>
+                        )}
 
                         {/* Play Indicator Badge */}
                         <div className="video-center-play-badge" aria-hidden="true">
@@ -364,10 +311,10 @@ export default function ProjectsSection() {
                           )}
                         </div>
 
-                        {/* Hover Hint on Video (ชี้ด้านบน): คลิกเล่นคลิปทันที หรือเปิดดูบน TikTok */}
+                        {/* Hover Hint on Video (ชี้ด้านบน): คลิกเปิดดูบนแพลตฟอร์ม */}
                         <div className="video-overlay-hint video-play-hint" aria-hidden="true">
-                          <Play size={20} />
-                          <span>{video.platform === 'tiktok' ? 'คลิกเปิดดูบน TikTok' : 'คลิกเล่นคลิปทันที'}</span>
+                          <ExternalLink size={20} />
+                          <span>{video.platform === 'tiktok' ? 'เปิดดูบน TikTok' : video.platform === 'youtube' ? 'เปิดดูบน YouTube' : 'เปิดดูคลิป'}</span>
                         </div>
 
                         {/* Hover Hint from Details (ชี้ด้านล่าง): คลิกดูรายละเอียด */}
@@ -376,23 +323,22 @@ export default function ProjectsSection() {
                           <span>คลิกดูรายละเอียด</span>
                         </div>
                       </div>
-                    )}
                   </div>
 
-                  {/* 2. ด้านล่างที่เป็นเนื้อหา - กดเพื่อเข้าไปดูรายละเอียดได้ทันที */}
+                  {/* 2. ด้านล่างที่เป็นเนื้อหา - กดเพื่อเปิดลิงก์ไปยังแพลตฟอร์มโดยตรง */}
                   <div 
                     className="project-content video-content clickable-details-area"
-                    onClick={() => handleOpenDetails(video, idx)}
+                    onClick={() => window.open(video.externalUrl || video.videoUrl, '_blank', 'noopener,noreferrer')}
                     role="button"
                     tabIndex={0}
                     onKeyDown={(e) => {
                       if (e.key === 'Enter' || e.key === ' ') {
                         e.preventDefault();
-                        handleOpenDetails(video, idx);
+                        window.open(video.externalUrl || video.videoUrl, '_blank', 'noopener,noreferrer');
                       }
                     }}
-                    title="คลิกเพื่อดูรายละเอียด"
-                    aria-label={`คลิกเพื่อดูรายละเอียด ${video.title}`}
+                    title={`เปิดดูบน ${video.platform === 'tiktok' ? 'TikTok' : video.platform === 'youtube' ? 'YouTube' : 'ลิงก์ภายนอก'}`}
+                    aria-label={`เปิดดูคลิป ${video.title}`}
                   >
                     <span className="video-category-label">{video.category}</span>
                     <h3 className="project-title">{video.title}</h3>
