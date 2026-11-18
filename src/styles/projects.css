@@ -379,129 +379,11 @@
   width: 100%;
 }
 
-.video-img-box {
-  height: 240px;
-  cursor: pointer;
-}
-
-.video-img {
-  object-fit: cover;
-  object-position: center top;
-}
-
-.video-poster-wrapper {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  cursor: pointer;
-  user-select: none;
-  -webkit-tap-highlight-color: transparent;
-}
-
-/* Fallback Poster สำหรับวิดีโอที่ไม่มีรูปปก (เช่น TikTok) */
-.video-fallback-poster {
-  width: 100%;
-  height: 100%;
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  align-items: flex-end;
-  padding: 16px;
-  background: linear-gradient(135deg, #18181b 0%, #09090b 100%);
-}
-
-.video-fallback-bg {
-  position: absolute;
-  inset: 0;
-  background: 
-    radial-gradient(circle at 80% 20%, rgba(250, 204, 21, 0.12) 0%, transparent 60%),
-    radial-gradient(circle at 20% 80%, rgba(6, 182, 212, 0.12) 0%, transparent 60%),
-    linear-gradient(180deg, transparent 30%, rgba(9, 9, 11, 0.85) 100%);
-  pointer-events: none;
-}
-
-.video-fallback-content {
-  position: relative;
-  z-index: 2;
-  width: 100%;
-}
-
-.video-fallback-platform {
-  display: inline-block;
-  font-size: 0.72rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.8px;
-  color: var(--accent-yellow);
-  margin-bottom: 4px;
-}
-
-.video-fallback-title {
-  font-size: 0.92rem;
-  font-weight: 600;
-  color: #fff;
-  line-height: 1.35;
-  margin: 0;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
-}
-
-/* Play Badge in center of video card */
-.video-center-play-badge {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-  z-index: 2;
-  transition: transform var(--transition-normal), opacity var(--transition-fast);
-}
-
-.video-card:hover .video-center-play-badge {
-  transform: translate(-50%, -50%) scale(1.15);
-  opacity: 0.15;
-}
-
-.play-icon-glow {
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  background: var(--primary-gradient);
-  color: #09090b;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding-left: 3px;
-  box-shadow: 0 0 24px rgba(250, 204, 21, 0.65);
-  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
-}
-
-.video-card-top-badges {
-  position: absolute;
-  top: 12px;
-  left: 12px;
-  right: 12px;
+.video-card-top-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  pointer-events: none;
-  z-index: 3;
-}
-
-.video-platform-badge {
-  position: static;
-  background: rgba(9, 9, 11, 0.9);
-  border: 1px solid rgba(250, 204, 21, 0.5);
-  color: var(--accent-yellow);
-  padding: 3px 10px;
-  border-radius: var(--border-radius-full);
-  font-size: 0.74rem;
-  font-weight: 600;
-  letter-spacing: 0.4px;
-  backdrop-filter: blur(8px);
+  margin-bottom: 8px;
 }
 
 .video-duration-badge {
@@ -518,74 +400,51 @@
   backdrop-filter: blur(8px);
 }
 
-/* Active Inline Player */
-.video-player-active {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  background: #000;
-}
-
-.video-embedded-iframe,
-.video-embedded-player {
-  width: 100%;
-  height: 100%;
-  border: none;
-  display: block;
-  object-fit: contain;
-}
-
-.video-close-inline-btn {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  z-index: 10;
-  background: rgba(9, 9, 11, 0.88);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: #fff;
-  border-radius: var(--border-radius-full);
-  padding: 4px 10px;
-  font-size: 0.75rem;
+/* Video Link Card — ทั้งการ์ดเป็นลิงก์เดียว */
+.video-link-card {
   display: flex;
-  align-items: center;
-  gap: 5px;
-  cursor: pointer;
-  backdrop-filter: blur(8px);
-  transition: all var(--transition-fast);
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+  border-radius: var(--border-radius-lg);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast), transform var(--transition-normal);
 }
 
-.video-close-inline-btn:hover {
-  background: #ef4444;
-  border-color: #ef4444;
-  color: #fff;
+.video-link-card .video-content {
+  padding: 24px;
 }
 
-.video-placeholder-notice {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--text-secondary);
-  font-size: 0.88rem;
-  padding: 20px;
-  text-align: center;
+.video-link-card:hover {
+  border-color: var(--accent-yellow);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4), 0 0 25px rgba(250, 204, 21, 0.15);
+  transform: translateY(-4px);
 }
 
-/* Clickable Details Area */
-.clickable-details-area {
-  cursor: pointer;
-  user-select: none;
-  transition: background var(--transition-fast);
-}
-
-.clickable-details-area:hover .project-title {
+.video-link-card:hover .project-title {
   color: var(--accent-yellow);
 }
 
-.video-card:has(.clickable-details-area:hover) {
-  border-color: var(--accent-yellow);
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4), 0 0 25px rgba(250, 204, 21, 0.15);
+.video-link-card:hover .video-link-action {
+  color: var(--accent-yellow);
+  border-color: rgba(250, 204, 21, 0.4);
+  background: rgba(250, 204, 21, 0.08);
+}
+
+/* ปุ่มลิงก์ด้านล่างการ์ด */
+.video-link-action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 14px;
+  padding: 10px 16px;
+  font-size: 0.86rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-full);
+  background: rgba(255, 255, 255, 0.02);
+  transition: all var(--transition-fast);
 }
 
 .video-category-label {
@@ -610,10 +469,15 @@
   color: #18181b;
 }
 
-[data-theme="light"] .video-close-inline-btn {
-  background: rgba(255, 255, 255, 0.92);
-  color: #18181b;
-  border-color: rgba(0, 0, 0, 0.15);
+[data-theme="light"] .video-link-action {
+  color: #52525b;
+  border-color: rgba(0, 0, 0, 0.12);
+}
+
+[data-theme="light"] .video-link-card:hover .video-link-action {
+  color: var(--accent-yellow-dark, #b45309);
+  border-color: rgba(202, 138, 4, 0.3);
+  background: rgba(202, 138, 4, 0.06);
 }
 
 [data-theme="light"] .play-icon-glow {
@@ -636,9 +500,5 @@
     width: 100%;
     flex: 0 0 auto;
     height: auto;
-  }
-  .video-img-box {
-    height: 260px;
-    min-height: 250px;
   }
 }

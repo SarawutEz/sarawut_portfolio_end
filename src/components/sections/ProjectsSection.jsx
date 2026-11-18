@@ -247,100 +247,29 @@ export default function ProjectsSection() {
           <div className="video-projects-grid">
             {videoProjectsData.map((rawVideo, idx) => {
               const video = normalizeVideoItem(rawVideo, idx);
-              const thumbnail = getVideoThumbnail(video);
+              const videoLink = video.externalUrl || video.videoUrl;
+              const platformLabel = video.platform === 'tiktok' ? 'TikTok' : video.platform === 'youtube' ? 'YouTube' : 'Video';
 
               return (
-                <div 
+                <a 
                   key={video.id} 
-                  className={`glass-card project-card video-card reveal-on-scroll stagger-${(idx % 3) + 1}`}
+                  href={videoLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`glass-card project-card video-card video-link-card reveal-on-scroll stagger-${(idx % 3) + 1}`}
+                  title={`เปิดดูบน ${platformLabel}`}
                 >
-                  {/* 1. ด้านบนที่เป็นคลิป - กดเพื่อเปิดลิงก์ไปยังแพลตฟอร์มโดยตรง */}
-                  <div className="project-img-box video-img-box">
-                      <div 
-                        className="video-poster-wrapper"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          window.open(video.externalUrl || video.videoUrl, '_blank', 'noopener,noreferrer');
-                        }}
-                        role="button"
-                        tabIndex={0}
-                        onKeyDown={(e) => {
-                          if (e.key === 'Enter' || e.key === ' ') {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            window.open(video.externalUrl || video.videoUrl, '_blank', 'noopener,noreferrer');
-                          }
-                        }}
-                        title={`คลิกเพื่อเปิดดูบน ${video.platform === 'tiktok' ? 'TikTok' : video.platform === 'youtube' ? 'YouTube' : 'ลิงก์ภายนอก'}`}
-                        aria-label={`เปิดดูคลิป ${video.title} บน ${video.platform === 'tiktok' ? 'TikTok' : video.platform === 'youtube' ? 'YouTube' : 'ลิงก์ภายนอก'}`}
-                      >
-                        {thumbnail ? (
-                          <img 
-                            src={thumbnail} 
-                            alt={video.title} 
-                            className="project-img video-img"
-                            loading="lazy" 
-                          />
-                        ) : (
-                          <div className="video-fallback-poster">
-                            <div className="video-fallback-bg"></div>
-                            <div className="video-fallback-content">
-                              <span className="video-fallback-platform">{video.platform === 'tiktok' ? 'TikTok' : 'Video'}</span>
-                              <p className="video-fallback-title">{video.title}</p>
-                            </div>
-                          </div>
-                        )}
+                  <div className="project-content video-content">
+                    <div className="video-card-top-row">
+                      <span className="video-category-label">{video.category}</span>
+                      {video.duration && (
+                        <span className="video-duration-badge">
+                          <Play size={10} />
+                          <span>{video.duration}</span>
+                        </span>
+                      )}
+                    </div>
 
-                        {/* Play Indicator Badge */}
-                        <div className="video-center-play-badge" aria-hidden="true">
-                          <div className="play-icon-glow">
-                            <Play size={24} className="play-icon" />
-                          </div>
-                        </div>
-
-                        {/* Top Badges */}
-                        <div className="video-card-top-badges">
-                          <span className="project-category-badge video-platform-badge">
-                            {video.platform === 'tiktok' ? 'TikTok' : video.platform === 'youtube' ? 'YouTube' : 'Showreel'}
-                          </span>
-                          {video.duration && (
-                            <span className="video-duration-badge">
-                              <Play size={10} />
-                              <span>{video.duration}</span>
-                            </span>
-                          )}
-                        </div>
-
-                        {/* Hover Hint on Video (ชี้ด้านบน): คลิกเปิดดูบนแพลตฟอร์ม */}
-                        <div className="video-overlay-hint video-play-hint" aria-hidden="true">
-                          <ExternalLink size={20} />
-                          <span>{video.platform === 'tiktok' ? 'เปิดดูบน TikTok' : video.platform === 'youtube' ? 'เปิดดูบน YouTube' : 'เปิดดูคลิป'}</span>
-                        </div>
-
-                        {/* Hover Hint from Details (ชี้ด้านล่าง): คลิกดูรายละเอียด */}
-                        <div className="video-overlay-hint video-details-hint" aria-hidden="true">
-                          <Eye size={20} />
-                          <span>คลิกดูรายละเอียด</span>
-                        </div>
-                      </div>
-                  </div>
-
-                  {/* 2. ด้านล่างที่เป็นเนื้อหา - กดเพื่อเปิดลิงก์ไปยังแพลตฟอร์มโดยตรง */}
-                  <div 
-                    className="project-content video-content clickable-details-area"
-                    onClick={() => window.open(video.externalUrl || video.videoUrl, '_blank', 'noopener,noreferrer')}
-                    role="button"
-                    tabIndex={0}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
-                        window.open(video.externalUrl || video.videoUrl, '_blank', 'noopener,noreferrer');
-                      }
-                    }}
-                    title={`เปิดดูบน ${video.platform === 'tiktok' ? 'TikTok' : video.platform === 'youtube' ? 'YouTube' : 'ลิงก์ภายนอก'}`}
-                    aria-label={`เปิดดูคลิป ${video.title}`}
-                  >
-                    <span className="video-category-label">{video.category}</span>
                     <h3 className="project-title">{video.title}</h3>
                     <p className="project-desc">{video.description}</p>
 
@@ -353,25 +282,12 @@ export default function ProjectsSection() {
                       )}
                     </div>
 
-                    <div className="project-actions">
-                      <div className="project-links" onClick={(e) => e.stopPropagation()}>
-                        {video.externalUrl && (
-                          <a
-                            href={video.externalUrl}
-                            target="_blank"
-                            rel="noreferrer"
-                            className="project-link-btn"
-                            title={`เปิดดูบน ${video.platform === 'tiktok' ? 'TikTok' : video.platform === 'youtube' ? 'YouTube' : 'ลิงก์ภายนอก'}`}
-                            aria-label={`เปิดดูบน ${video.platform}`}
-                            onClick={(e) => e.stopPropagation()}
-                          >
-                            <ExternalLink size={16} />
-                          </a>
-                        )}
-                      </div>
+                    <div className="video-link-action">
+                      <ExternalLink size={14} />
+                      <span>เปิดดูบน {platformLabel}</span>
                     </div>
                   </div>
-                </div>
+                </a>
               );
             })}
           </div>
