@@ -154,24 +154,28 @@ export const videoProjectsData = [
   {
     title: "บรรยากาศห้อง Mac",
     videoUrl: "https://www.tiktok.com/@techniccom_chan/video/7702272287713545492",
+    duration: "", // เปลี่ยนข้อความตรงนี้ได้ เช่น "Short-form", "00:18", "Demo" หรือใส่ "" เพื่อซ่อน
     description: "วิดีโอภาพบรรยากาศห้องเรียนของเเผนกเทคนิคคอมวิทยาลัยเทคนิคจันทบุรี",
     tags: ["TikTok", "CapCut", "Canva", "Cameraman"]
   },
   {
     title: "Computer101 คอมทำงานอย่างไร?",
     videoUrl: "https://www.tiktok.com/@techniccom_chan/video/7704870917767187732",
+    duration: "",
     description: "วิดีโออธิบายหลักการทำงานของคอมพิวเตอร์",
     tags: ["TikTok", "CapCut", "Canva"]
   },
   {
     title: "khaleed อาบังขายถั่ว",
     videoUrl: "https://www.tiktok.com/@luciano.o_o/video/7614775454737681684",
+    duration: "",
     description: "ผลงานการตัดต่อวิดีโอจากช่องของผม @luciano.o_o",
     tags: ["TikTok", "CapCut", "Canva"]
   },
   {
     title: "Lazaruz Anime Underrate ที่อยากเเนะนำ",
     videoUrl: "https://www.tiktok.com/@luciano.o_o/video/7641601630353362194",
+    duration: "",
     description: "ผลงานการตัดต่อวิดีโอจากช่องของผม @luciano.o_o",
     tags: ["TikTok", "CapCut", "Canva"]
   },

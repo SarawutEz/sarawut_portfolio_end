@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import SectionTitle from '../common/SectionTitle';
 import ProjectModal from '../common/ProjectModal';
 import MediaCarousel from '../common/MediaCarousel';
-import { Github } from '../common/BrandIcons';
+import { Github, TikTokIcon, YouTubeIcon } from '../common/BrandIcons';
 import { projectsData, videoProjectsData } from '../../data/portfolioData';
 import { FolderGit2, ExternalLink, Eye, Video, Film, Play } from 'lucide-react';
 import '../../styles/projects.css';
@@ -54,7 +54,7 @@ const normalizeVideoItem = (raw = {}, idx = 0) => {
   const videoUrl = raw.videoUrl || raw.embedUrl || raw.videos?.[0]?.src || '';
   const platform = raw.platform || detectPlatform(videoUrl);
   const title = raw.title || `วิดีโอผลงาน ${idx + 1}`;
-  const category = raw.category || (platform === 'tiktok' ? 'TikTok Video' : platform === 'youtube' ? 'YouTube Demo' : 'Video Project');
+  const category = raw.category || (platform === 'tiktok' ? 'TikTok Video' : platform === 'youtube' ? 'YouTube Video' : 'Video Project');
   const description = raw.description || raw.fullDescription || 'วิดีโอสาธิตและนำเสนอผลงาน';
   const tags = raw.tags && raw.tags.length > 0
     ? raw.tags
@@ -74,7 +74,7 @@ const normalizeVideoItem = (raw = {}, idx = 0) => {
     videoUrl,
     platform,
     category,
-    duration: raw.duration || (platform === 'tiktok' ? 'Short-form' : 'Video'),
+    duration: raw.duration !== undefined ? raw.duration : (platform === 'tiktok' ? 'Short-form' : 'Video'),
     description,
     fullDescription: raw.fullDescription || description,
     tags,
@@ -248,7 +248,9 @@ export default function ProjectsSection() {
             {videoProjectsData.map((rawVideo, idx) => {
               const video = normalizeVideoItem(rawVideo, idx);
               const videoLink = video.externalUrl || video.videoUrl;
-              const platformLabel = video.platform === 'tiktok' ? 'TikTok' : video.platform === 'youtube' ? 'YouTube' : 'Video';
+              const isTikTok = video.platform === 'tiktok' || video.videoUrl?.includes('tiktok');
+              const isYouTube = video.platform === 'youtube' || video.videoUrl?.includes('youtu');
+              const platformLabel = isTikTok ? 'TikTok' : isYouTube ? 'YouTube' : 'Video';
 
               return (
                 <a 
@@ -257,11 +259,28 @@ export default function ProjectsSection() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className={`glass-card project-card video-card video-link-card reveal-on-scroll stagger-${(idx % 3) + 1}`}
-                  title={`เปิดดูบน ${platformLabel}`}
+                  title={`เปิดดูคลิปบน ${platformLabel}`}
                 >
+                  {/* Decorative Watermark */}
+                  <div className="video-card-watermark" aria-hidden="true">
+                    {isTikTok ? <TikTokIcon size={88} /> : isYouTube ? <YouTubeIcon size={88} /> : <Film size={88} />}
+                  </div>
+
+                  {/* Top Glowing Accent Line */}
+                  <div className={`video-card-accent-line ${isTikTok ? 'accent-tiktok' : isYouTube ? 'accent-youtube' : ''}`}></div>
+
                   <div className="project-content video-content">
                     <div className="video-card-top-row">
-                      <span className="video-category-label">{video.category}</span>
+                      <div className={`video-platform-pill ${isTikTok ? 'pill-tiktok' : isYouTube ? 'pill-youtube' : ''}`}>
+                        {isTikTok ? (
+                          <TikTokIcon size={14} className="platform-pill-icon" />
+                        ) : isYouTube ? (
+                          <YouTubeIcon size={14} className="platform-pill-icon" />
+                        ) : (
+                          <Video size={14} className="platform-pill-icon" />
+                        )}
+                        <span>{video.category}</span>
+                      </div>
                       {video.duration && (
                         <span className="video-duration-badge">
                           <Play size={10} />
@@ -283,8 +302,8 @@ export default function ProjectsSection() {
                     </div>
 
                     <div className="video-link-action">
-                      <ExternalLink size={14} />
-                      <span>เปิดดูบน {platformLabel}</span>
+                      <span>เปิดดูคลิปบน {platformLabel}</span>
+                      <ExternalLink size={15} className="link-action-icon" />
                     </div>
                   </div>
                 </a>
