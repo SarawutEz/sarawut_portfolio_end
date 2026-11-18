@@ -384,6 +384,11 @@
   cursor: pointer;
 }
 
+.video-img {
+  object-fit: cover;
+  object-position: center top;
+}
+
 .video-poster-wrapper {
   position: relative;
   width: 100%;

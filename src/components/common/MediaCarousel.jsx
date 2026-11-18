@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { ChevronLeft, ChevronRight, Image as ImageIcon, Play } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Image as ImageIcon, Play, ExternalLink } from 'lucide-react';
 import '../../styles/carousel.css';
 
 /**
@@ -140,10 +140,12 @@ export default function MediaCarousel({
     }
     if (media.type === 'tiktok' || media.src?.includes('tiktok.com')) {
       const src = media.src;
-      if (src.includes('tiktok.com/player/v1/')) return src;
+      if (src.includes('tiktok.com/player/v1/')) {
+        return src;
+      }
       const match = src.match(/video\/(\d+)/);
       if (match) {
-        return `https://www.tiktok.com/player/v1/${match[1]}?autoplay=0`;
+        return `https://www.tiktok.com/player/v1/${match[1]}`;
       }
       return src;
     }
@@ -171,6 +173,52 @@ export default function MediaCarousel({
       );
     }
 
+    if (currentMedia.type === 'tiktok' || currentMedia.src?.includes('tiktok')) {
+      const previewImg = currentMedia.image || image;
+      const tiktokUrl = currentMedia.src?.includes('tiktok.com/player/v1/')
+        ? `https://www.tiktok.com/@video/video/${currentMedia.src.split('player/v1/')[1]?.split('?')[0]}`
+        : currentMedia.src;
+
+      if (previewImg) {
+        return (
+          <div className="carousel-video-wrapper" onClick={(e) => e.stopPropagation()} style={{ position: 'relative', width: '100%', height: '100%' }}>
+            <img
+              src={previewImg}
+              alt={currentMedia.title || "TikTok Video"}
+              className="carousel-media carousel-img"
+              style={{ objectFit: 'cover' }}
+            />
+            <a
+              href={tiktokUrl}
+              target="_blank"
+              rel="noreferrer"
+              style={{
+                position: 'absolute',
+                bottom: '16px',
+                right: '16px',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '8px 16px',
+                background: 'rgba(9, 9, 11, 0.85)',
+                color: '#fff',
+                borderRadius: '9999px',
+                border: '1px solid rgba(250, 204, 21, 0.4)',
+                fontSize: '0.85rem',
+                textDecoration: 'none',
+                backdropFilter: 'blur(8px)',
+                zIndex: 4,
+                boxShadow: '0 4px 12px rgba(0,0,0,0.5)'
+              }}
+            >
+              <span>เปิดดูบน TikTok</span>
+              <ExternalLink size={14} />
+            </a>
+          </div>
+        );
+      }
+    }
+
     if (currentMedia.type === 'youtube' || currentMedia.type === 'tiktok' || currentMedia.src?.includes('youtu') || currentMedia.src?.includes('tiktok')) {
       const embedSrc = getEmbedUrl(currentMedia);
       return (
@@ -179,7 +227,7 @@ export default function MediaCarousel({
             src={embedSrc}
             title={currentMedia.title || `${currentMedia.type} Video ${currentIndex + 1}`}
             className="carousel-media carousel-iframe"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; fullscreen; gyroscope; picture-in-picture; web-share"
             allowFullScreen
             loading="lazy"
           />

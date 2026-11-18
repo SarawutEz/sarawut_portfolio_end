@@ -154,7 +154,6 @@ export const videoProjectsData = [
   {
     title: "บรรยากาศห้อง Mac",
     videoUrl: "https://www.tiktok.com/@techniccom_chan/video/7702272287713545492",
-    //image: "/images/Pixel_Heealth_Buddy.png",
     description: "วิดีโอภาพบรรยากาศห้องเรียนของเเผนกเทคนิคคอมวิทยาลัยเทคนิคจันทบุรี",
     tags: ["TikTok", "CapCut", "Canva", "Cameraman"]
   },

@@ -25,7 +25,7 @@ const getVideoEmbedUrl = (video, autoplay = true) => {
   if (platform === 'tiktok') {
     const match = src.match(/video\/(\d+)/);
     const videoId = match ? match[1] : (src.includes('player/v1/') ? src.split('player/v1/')[1]?.split('?')[0] : '');
-    return videoId ? `https://www.tiktok.com/player/v1/${videoId}?autoplay=${autoplay ? 1 : 0}` : src;
+    return videoId ? `https://www.tiktok.com/player/v1/${videoId}` : src;
   }
   if (platform === 'youtube') {
     const match = src.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?.*v=|shorts\/|embed\/))([a-zA-Z0-9_-]{11})/);
@@ -266,16 +266,18 @@ export default function ProjectsSection() {
                             src={getVideoEmbedUrl(video, isPlaying)}
                             title={video.title}
                             className="video-embedded-iframe"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; fullscreen; gyroscope; picture-in-picture; web-share"
                             allowFullScreen
+                            loading="lazy"
                           />
                         ) : video.platform === 'youtube' || video.videoUrl?.includes('youtu') ? (
                           <iframe
                             src={getVideoEmbedUrl(video, isPlaying)}
                             title={video.title}
                             className="video-embedded-iframe"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; fullscreen; gyroscope; picture-in-picture; web-share"
                             allowFullScreen
+                            loading="lazy"
                           />
                         ) : video.videoUrl || video.videos?.[0]?.src ? (
                           <video
@@ -313,7 +315,11 @@ export default function ProjectsSection() {
                         className="video-poster-wrapper"
                         onClick={(e) => {
                           e.stopPropagation();
-                          setActivePlayingId(video.id);
+                          if (video.platform === 'tiktok' || video.videoUrl?.includes('tiktok')) {
+                            window.open(video.externalUrl || video.videoUrl, '_blank', 'noopener,noreferrer');
+                          } else {
+                            setActivePlayingId(video.id);
+                          }
                         }}
                         role="button"
                         tabIndex={0}
@@ -321,11 +327,15 @@ export default function ProjectsSection() {
                           if (e.key === 'Enter' || e.key === ' ') {
                             e.preventDefault();
                             e.stopPropagation();
-                            setActivePlayingId(video.id);
+                            if (video.platform === 'tiktok' || video.videoUrl?.includes('tiktok')) {
+                              window.open(video.externalUrl || video.videoUrl, '_blank', 'noopener,noreferrer');
+                            } else {
+                              setActivePlayingId(video.id);
+                            }
                           }
                         }}
-                        title="กดที่นี่เพื่อเล่นคลิปทันที"
-                        aria-label={`กดที่นี่เพื่อเล่นคลิป ${video.title}`}
+                        title={video.platform === 'tiktok' ? "คลิกเพื่อเปิดดูบน TikTok" : "กดที่นี่เพื่อเล่นคลิปทันที"}
+                        aria-label={`กดที่นี่เพื่อเปิดดูคลิป ${video.title}`}
                       >
                         <img 
                           src={thumbnail} 
@@ -354,10 +364,10 @@ export default function ProjectsSection() {
                           )}
                         </div>
 
-                        {/* Hover Hint on Video (ชี้ด้านบน): คลิกเล่นคลิปทันที */}
+                        {/* Hover Hint on Video (ชี้ด้านบน): คลิกเล่นคลิปทันที หรือเปิดดูบน TikTok */}
                         <div className="video-overlay-hint video-play-hint" aria-hidden="true">
                           <Play size={20} />
-                          <span>คลิกเล่นคลิปทันที</span>
+                          <span>{video.platform === 'tiktok' ? 'คลิกเปิดดูบน TikTok' : 'คลิกเล่นคลิปทันที'}</span>
                         </div>
 
                         {/* Hover Hint from Details (ชี้ด้านล่าง): คลิกดูรายละเอียด */}
