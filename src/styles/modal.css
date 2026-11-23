@@ -619,7 +619,16 @@
 
 .modal-canva-spinner {
   color: var(--accent-yellow);
-  animation: spin 1s linear infinite;
+  animation: canvaSpin 0.9s linear infinite;
+}
+
+@keyframes canvaSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .modal-canva-iframe {

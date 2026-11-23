@@ -135,6 +135,7 @@ export const projectsData = [
     tags: ["Flutter", "Dart", "Firebase", "Ai"],
     liveUrl: "https://drive.google.com/file/d/1nXVvG_BvieF6N2uIfoKAWOcoGg5Qf7Fu/view?usp=drive_link",
     githubUrl: "https://github.com/SarawutEz",
+    canvaUrl: "https://www.canva.com/design/DAHP5xd5J74/emCCOf5aW630WRP6TjlbUg/edit",
     featured: true,
     highlights: [
       "ตัวละคร Pixel เเทนตัวผู้ใช้",
