@@ -144,6 +144,48 @@ export const projectsData = [
       "การดูประวัติย้อนหลังการกิน การดื่ม การเดิน"
     ]
   },
+  {
+    id: 3,
+    title: "inside-shirt",
+    category: "Web Media",
+    description: "เว็บไซต์แบรนด์เสื้อ Inside Shirt",
+    fullDescription: "เว็บเเบรนด์เสื้อ Inside Shirt ที่ผมเคยทำกลับเพื่อนตอนเรียน ใช้ในการเเสดงสินค้าเเละลิงค์ไปยัง LINE OA เพื่อทำการสั่งซื้อสิ้นค้า",
+    image: "/images/inside-shirt.png",
+    images: [
+      "/images/inside-shirt.png",
+    ],
+    videos: [
+      //{ type: "tiktok", src: "https://www.tiktok.com/@luciano.o_o/video/7614775454737681684", title: "Pixel Health Buddy - TikTok Demo" }
+    ],
+    tags: ["TypeScript", "JavaScript", "TailwindCss", "Ai"],
+    liveUrl: "https://inside-shirt.vercel.app/",
+    githubUrl: "https://github.com/SarawutEz",
+    featured: true,
+    highlights: [
+      "อนิเมชั่นที่ลื่นไหล",
+      "UI ที่มีความทันสมัย",
+      "UX ที่ใช้งานง่าย",
+    ]
+  },
+  {
+    id: 4,
+    title: "DORAEMON",
+    category: "Presentation",
+    description: "การนำเสนอเชิงสร้างสรรค์",
+    fullDescription: "สไลด์นำเสนอในงานเทคนิคการนำเสนอเชิงสร้างสรรค์ เป็นการทำสไลด์ตัวละครที่ชอบเพื่อนำเสนอออกมาให้ทุกคนได้รับชม",
+    image: "/images/DORAEMON.png",
+    images: [
+      "/images/DORAEMON.png",
+    ],
+    videos: [
+      //{ type: "tiktok", src: "https://www.tiktok.com/@luciano.o_o/video/7614775454737681684", title: "Pixel Health Buddy - TikTok Demo" }
+    ],
+    tags: ["Canva"],
+    liveUrl: "https://inside-shirt.vercel.app/",
+    canvaUrl: "https://www.canva.com/design/DAHNYFcxS-s/-tZLGLxWME3_LAhnURhnxQ/edit",
+    featured: true,
+
+  },
 ];
 
 /**
