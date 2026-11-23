@@ -1,15 +1,49 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { X, ExternalLink, CheckCircle2, Layers, Sparkles, ChevronDown } from 'lucide-react';
-import { Github } from './BrandIcons';
+import { X, ExternalLink, CheckCircle2, Layers, Sparkles, ChevronDown, Presentation, Loader2 } from 'lucide-react';
+import { Github, CanvaIcon } from './BrandIcons';
 import MediaCarousel from './MediaCarousel';
 import Lightbox from './Lightbox';
 import '../../styles/modal.css';
+
+// ฟังก์ชันแปลงและตรวจสอบลิงก์ Canva อัตโนมัติ (รองรับ Embed link, View link, Edit link และ <iframe>)
+const parseCanvaUrl = (rawUrl = '') => {
+  if (!rawUrl || typeof rawUrl !== 'string') return null;
+  let url = rawUrl.trim();
+
+  // ตรวจจับกรณีคัดลอกโค้ด <iframe src="..."> มาทั้งบล็อก
+  const iframeMatch = url.match(/src=["']([^"']+)["']/i);
+  if (iframeMatch) {
+    url = iframeMatch[1];
+  }
+
+  if (url.includes('canva.com/design/')) {
+    // กำจัด query string และ path ย่อยที่ไม่จำเป็น
+    const cleanBase = url.split('?')[0].replace(/\/edit\/?$/, '').replace(/\/view\/?$/, '').replace(/\/watch\/?$/, '');
+    return {
+      embedUrl: `${cleanBase}/view?embed`,
+      viewUrl: `${cleanBase}/view`
+    };
+  }
+
+  // หากเป็น canva.link หรือ url อื่นๆ
+  return {
+    embedUrl: url,
+    viewUrl: url
+  };
+};
 
 export default function ProjectModal({ project, onClose }) {
   const [touchStartY, setTouchStartY] = useState(null);
   const [touchEndY, setTouchEndY] = useState(null);
   const [lightboxIndex, setLightboxIndex] = useState(null);
+  const [canvaLoading, setCanvaLoading] = useState(true);
   const contentRef = useRef(null);
+
+  const canvaData = project?.canvaUrl ? parseCanvaUrl(project.canvaUrl) : null;
+
+  useEffect(() => {
+    setCanvaLoading(true);
+  }, [project?.canvaUrl]);
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -127,6 +161,49 @@ export default function ProjectModal({ project, onClose }) {
           <h3 id="modal-project-title" className="modal-title">{project.title}</h3>
           
           <p className="modal-description">{project.fullDescription || project.description}</p>
+
+          {/* Canva Presentation Slide Section */}
+          {canvaData && (
+            <div className="modal-canva-section">
+              <div className="modal-canva-header">
+                <h4 className="modal-section-title" style={{ margin: 0 }}>
+                  <Presentation size={18} color="var(--accent-yellow)" />
+                  <span>สไลด์นำเสนอผลงาน (Canva Presentation)</span>
+                </h4>
+                {canvaData.viewUrl && (
+                  <a
+                    href={canvaData.viewUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="modal-canva-open-btn"
+                    title="เปิดสไลด์ดูแบบเต็มจอในแท็บใหม่"
+                  >
+                    <CanvaIcon size={16} />
+                    <span>เปิดดูใน Canva</span>
+                    <ExternalLink size={13} />
+                  </a>
+                )}
+              </div>
+
+              <div className="modal-canva-frame-container">
+                {canvaLoading && (
+                  <div className="modal-canva-skeleton">
+                    <Loader2 size={28} className="modal-canva-spinner" />
+                    <span>กำลังโหลดสไลด์นำเสนอ...</span>
+                  </div>
+                )}
+                <iframe
+                  src={canvaData.embedUrl}
+                  title={`${project.title} - Canva Presentation`}
+                  className={`modal-canva-iframe ${canvaLoading ? 'is-loading' : 'is-ready'}`}
+                  loading="lazy"
+                  allow="fullscreen; clipboard-read; clipboard-write"
+                  allowFullScreen
+                  onLoad={() => setCanvaLoading(false)}
+                />
+              </div>
+            </div>
+          )}
 
           {project.highlights && project.highlights.length > 0 && (
             <div style={{ marginBottom: '22px' }}>

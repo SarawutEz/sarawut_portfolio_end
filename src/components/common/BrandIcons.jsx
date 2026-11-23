@@ -84,3 +84,29 @@ export function YouTubeIcon({ size = 20, color = "currentColor", ...props }) {
     </svg>
   );
 }
+
+export function CanvaIcon({ size = 20, className = '', id = "canva-gradient", ...props }) {
+  const gradientId = `canva-grad-${id}`;
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      className={className}
+      {...props}
+    >
+      <defs>
+        <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#00C4CC" />
+          <stop offset="100%" stopColor="#7D2AE8" />
+        </linearGradient>
+      </defs>
+      <circle cx="12" cy="12" r="10" fill={`url(#${gradientId})`} />
+      <path
+        d="M13.8 8.8c-.8-.8-2.2-.6-3 .3-.9 1-1.3 2.5-1.3 4.2 0 2 .6 3.2 2 3.2.9 0 1.6-.5 2.1-1.3.2-.3.4-.3.6-.1l.6.8c-.8 1.1-2 1.7-3.4 1.7-2.3 0-3.5-1.8-3.5-4.4 0-2.3.8-4.2 2.1-5.3 1.1-.9 2.5-1.2 3.7-.8.5.2.6.5.4 1l-.3.7z"
+        fill="#FFFFFF"
+      />
+    </svg>
+  );
+}

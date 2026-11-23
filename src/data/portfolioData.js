@@ -111,6 +111,7 @@ export const projectsData = [
     tags: ["React", "Tailwind CSS", "UI/UX Design", "Vite", "Responsive Design"],
     liveUrl: "https://remediamt.netlify.app/",
     githubUrl: "https://github.com/SarawutEz/ReMedia.git",
+    canvaUrl: "https://www.canva.com/design/DAGN4-JcJmQ/F3LMi9fUY4os8IWJj-E_XA/edit",
     featured: true,
     highlights: [
       "ออกแบบด้วยแนวคิด User-Centric อ่านง่าย สบายตา",
