@@ -160,6 +160,9 @@ export default function ResumeSection() {
                       loading="lazy" 
                       decoding="async" 
                     />
+                    <span className="cert-badge">
+                      {cert.issuer || 'Certificate'}
+                    </span>
                   </div>
                 )}
 
