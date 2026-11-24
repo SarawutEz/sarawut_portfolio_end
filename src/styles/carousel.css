@@ -48,24 +48,31 @@
 .carousel-img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  object-position: top center;
+  object-fit: contain;
+  object-position: center;
   display: block;
   position: relative;
   z-index: 2;
-  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   animation: carouselFadeIn 0.5s ease-in-out;
+}
+
+/* Landscape web apps inside carousel */
+.carousel-image-frame.is-landscape-web .carousel-img {
+  object-fit: contain;
+  padding: 4px;
+  filter: drop-shadow(0 6px 18px rgba(0, 0, 0, 0.45));
 }
 
 /* Portrait mobile apps inside carousel */
 .carousel-image-frame.is-portrait-app .carousel-img {
   object-fit: contain;
-  padding: 10px 0;
-  filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.5));
+  padding: 8px 0;
+  filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.55));
 }
 
 .project-card:hover .carousel-img {
-  transform: scale(1.04);
+  transform: scale(1.025);
 }
 
 @keyframes carouselFadeIn {

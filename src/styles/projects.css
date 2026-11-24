@@ -162,11 +162,11 @@
   transform: scale(0.985);
 }
 
-/* Inset 4:3 Image Box */
+/* Inset Modern 16:10 Image Box */
 .project-img-box {
   position: relative;
   width: 100%;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 16 / 10;
   height: auto;
   overflow: hidden;
   border-radius: var(--border-radius-md);

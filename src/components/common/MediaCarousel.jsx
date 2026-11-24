@@ -157,13 +157,11 @@ export default function MediaCarousel({
       const isMobileApp = currentMedia.src?.toLowerCase().includes('buddy') || currentMedia.src?.toLowerCase().includes('app');
       return (
         <div className={`carousel-image-frame ${isMobileApp ? 'is-portrait-app' : 'is-landscape-web'}`}>
-          {isMobileApp && (
-            <div 
-              className="carousel-blur-backdrop" 
-              style={{ backgroundImage: `url(${currentMedia.src})` }}
-              aria-hidden="true"
-            />
-          )}
+          <div 
+            className="carousel-blur-backdrop" 
+            style={{ backgroundImage: `url(${currentMedia.src})` }}
+            aria-hidden="true"
+          />
           <img
             key={currentMedia.src + currentIndex}
             src={currentMedia.src}
