@@ -154,22 +154,32 @@ export default function MediaCarousel({
 
   const renderMedia = () => {
     if (currentMedia.type === 'image') {
+      const isMobileApp = currentMedia.src?.toLowerCase().includes('buddy') || currentMedia.src?.toLowerCase().includes('app');
       return (
-        <img
-          key={currentMedia.src + currentIndex}
-          src={currentMedia.src}
-          alt={`Media ${currentIndex + 1}`}
-          className="carousel-media carousel-img"
-          loading="lazy"
-          decoding="async"
-          style={onImageClick ? { cursor: 'zoom-in' } : undefined}
-          onClick={(e) => {
-            if (onImageClick) {
-              e.stopPropagation();
-              onImageClick(currentIndex);
-            }
-          }}
-        />
+        <div className={`carousel-image-frame ${isMobileApp ? 'is-portrait-app' : 'is-landscape-web'}`}>
+          {isMobileApp && (
+            <div 
+              className="carousel-blur-backdrop" 
+              style={{ backgroundImage: `url(${currentMedia.src})` }}
+              aria-hidden="true"
+            />
+          )}
+          <img
+            key={currentMedia.src + currentIndex}
+            src={currentMedia.src}
+            alt={`Media ${currentIndex + 1}`}
+            className="carousel-media carousel-img"
+            loading="lazy"
+            decoding="async"
+            style={onImageClick ? { cursor: 'zoom-in' } : undefined}
+            onClick={(e) => {
+              if (onImageClick) {
+                e.stopPropagation();
+                onImageClick(currentIndex);
+              }
+            }}
+          />
+        </div>
       );
     }
 

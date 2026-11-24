@@ -4,7 +4,7 @@ import ProjectModal from '../common/ProjectModal';
 import MediaCarousel from '../common/MediaCarousel';
 import { Github, TikTokIcon, YouTubeIcon } from '../common/BrandIcons';
 import { projectsData, videoProjectsData } from '../../data/portfolioData';
-import { FolderGit2, ExternalLink, Eye, Video, Film, Play } from 'lucide-react';
+import { FolderGit2, ExternalLink, Eye, Video, Film, Play, Sparkles } from 'lucide-react';
 import '../../styles/projects.css';
 
 const dynamicCategories = ["ทั้งหมด (All)", ...Array.from(new Set(projectsData.map(p => p.category).filter(Boolean)))];
@@ -142,7 +142,7 @@ export default function ProjectsSection() {
           {filteredProjects.map((project, idx) => (
             <div 
               key={project.id || idx} 
-              className={`glass-card project-card clickable-card reveal-on-scroll stagger-${(idx % 3) + 1}`}
+              className={`glass-card project-card modern-spotlight-card clickable-card reveal-on-scroll stagger-${(idx % 3) + 1}`}
               onClick={() => handleOpenDetails(project, idx)}
               role="button"
               tabIndex={0}
@@ -154,6 +154,18 @@ export default function ProjectsSection() {
               }}
               aria-label={`คลิกเพื่อดูรายละเอียด ${project.title}`}
             >
+              {/* Card Top Header Bar */}
+              <div className="project-card-topbar">
+                <div className="project-topbar-tag">
+                  <span className="topbar-status-dot" aria-hidden="true" />
+                  <span className="topbar-category-text">{project.category || 'Project'}</span>
+                </div>
+                <div className="project-topbar-badge">
+                  {project.featured ? 'FEATURED' : 'SHOWCASE'}
+                </div>
+              </div>
+
+              {/* Inset Image Box */}
               <div className="project-img-box">
                 <MediaCarousel
                   images={(project.images || (project.image ? [project.image] : [])).filter(Boolean)}
@@ -162,12 +174,10 @@ export default function ProjectsSection() {
                   syncStep={syncStep}
                   className="project-card-carousel"
                 />
-                <span className="project-category-badge">
-                  {project.category}
-                </span>
-                <div className="project-card-overlay-hint">
-                  <Eye size={18} />
-                  <span>คลิกดูรายละเอียด</span>
+                
+                {/* Modern Action Badge Hint (Bottom Right) */}
+                <div className="project-action-hint-badge" title="คลิกดูรายละเอียด" aria-hidden="true">
+                  <Eye size={15} />
                 </div>
               </div>
 

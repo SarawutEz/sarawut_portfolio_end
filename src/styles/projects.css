@@ -72,6 +72,73 @@
   max-width: 480px;
   width: 100%;
   height: auto;
+  border-radius: var(--border-radius-lg);
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  padding: 14px;
+}
+
+/* Modern Spotlight Card Header Topbar */
+.project-card-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2px 4px 12px 4px;
+  width: 100%;
+}
+
+.project-topbar-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.topbar-status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: var(--accent-yellow);
+  box-shadow: 0 0 10px var(--accent-yellow), 0 0 4px var(--accent-yellow);
+  display: inline-block;
+  animation: pulseDot 2.4s ease-in-out infinite;
+}
+
+@keyframes pulseDot {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(0.85);
+  }
+}
+
+.topbar-category-text {
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  opacity: 0.92;
+}
+
+.project-topbar-badge {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.7px;
+  color: var(--text-muted);
+  border: 1px solid var(--border-color);
+  background: rgba(255, 255, 255, 0.03);
+  padding: 2px 8px;
+  border-radius: var(--border-radius-sm);
+  text-transform: uppercase;
+}
+
+[data-theme="light"] .project-topbar-badge {
+  background: rgba(0, 0, 0, 0.04);
 }
 
 .project-card.clickable-card {
@@ -83,7 +150,7 @@
 .project-card:hover {
   transform: translateY(-6px);
   border-color: var(--accent-yellow);
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4), 0 0 25px rgba(250, 204, 21, 0.15);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4), 0 0 25px rgba(250, 204, 21, 0.18);
 }
 
 .project-card:focus,
@@ -95,24 +162,59 @@
   transform: scale(0.985);
 }
 
+/* Inset 4:3 Image Box */
 .project-img-box {
   position: relative;
   width: 100%;
-  height: 200px;
+  aspect-ratio: 4 / 3;
+  height: auto;
   overflow: hidden;
-  background: #09090b;
+  border-radius: var(--border-radius-md);
+  background: #08080b;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+[data-theme="light"] .project-img-box {
+  background: #f1f5f9;
+  border: 1px solid rgba(0, 0, 0, 0.06);
 }
 
 .project-img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
-  object-position: center;
+  object-fit: cover;
+  object-position: top center;
   transition: transform var(--transition-smooth);
 }
 
-.project-card:hover .project-img {
-  transform: scale(1.08);
+/* Action hint badge in bottom right corner of image */
+.project-action-hint-badge {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(10, 10, 14, 0.78);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-primary);
+  opacity: 0.85;
+  transition: all var(--transition-fast);
+  z-index: 5;
+}
+
+.project-card:hover .project-action-hint-badge {
+  background: var(--accent-yellow);
+  border-color: var(--accent-yellow);
+  color: #09090b;
+  opacity: 1;
+  transform: scale(1.1);
+  box-shadow: 0 0 14px rgba(250, 204, 21, 0.5);
 }
 
 /* Card Overlay Hints */
@@ -194,7 +296,7 @@
 }
 
 .project-content {
-  padding: 22px;
+  padding: 16px 6px 6px 6px;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
